@@ -34,35 +34,76 @@ from deepface import DeepFace
 
 # Function to count true positives, true negatives, false positives, and false negatives
 
-def find_template_image(race, folder):
-    return 'rfw/test/data/' + race + '/' + folder + '/' + folder + '_0001.jpg'
+def _get_template_image(race, folder):
+    return 'rfw/test/data/' + race + '/' + folder + '/' + folder + '_0001.jpg', 1
 
-def find_test_image(race, folder, i):
+def _get_test_image(race, folder, i):
     file = '_000' + str(i) + '.jpg'
-    return 'rfw/test/data/' + race + '/' + folder + '/' + folder + file
+    return 'rfw/test/data/' + race + '/' + folder + '/' + folder + file, i
 
-def _run_tests(race, model, detector, folder_size, lookup_table):
-    tp, tn, fp, fn = 0, 0, 0, 0
-    test_count = 0
+# returns true if template image and test image are the same person
+def _test_for_match(pair_list, template_image_index, test_image_index):
+    for pair in pair_list:
+        if pair[0] == template_image_index and pair[1] == test_image_index:
+            return True
+        elif pair[0] == test_image_index and pair[1] == template_image_index:
+            return True
+    return False
+
+def _calculate_results(is_match, result, tp, tn, fp, fn, pos_test_count, neg_test_count):
+    if is_match == True:
+        pos_test_count += 1
+    else:
+        neg_test_count += 1
+
+    print("is_match", is_match)
+    print("result", result['verified'])
+
+    if is_match == True and result['verified'] == True:
+        print("Result True Positive")
+        tp += 1
+    elif is_match == True and result['verified'] == False:
+        print("Result False Negative")
+        fn += 1
+    elif is_match == False and result['verified'] == True:
+        print("Result False Positive")
+        fp += 1
+    elif is_match == False and result['verified'] == False:
+        print("Result True Negative")
+        tn += 1
+
+    return tp, tn, fp, fn, pos_test_count, neg_test_count
+
+def _run_tests(race, model, detector, folder_size_list, lookup_table):
+
+    pos_test_count = 0         # number of tests performed where the template and test are the same person
+    neg_test_count = 0         # number of tests performed where the template and test are NOT the same person
+    tp, tn, fp, fn = 0, 0, 0, 0     # true positive, true negative, false positive, false negative
 
     # iterate through each folder
     count = 0
-    for folder, size in folder_size:
-        template_image = find_template_image(race, folder)
+    for folder, size in folder_size_list:
+        template_image, template_image_index = _get_template_image(race, folder)
+        print("\n------ Testing Folder:", folder, "--------------------------------------------------")
 
         # run tests
         for i in range(2, size+1):
-            test_image = find_test_image(race, folder, i)
-            print("test", test_image)
+            test_image, test_image_index = _get_test_image(race, folder, i)
+            print("\n\tTemplate:", template_image, "\tTest:", test_image)
+            pair_list = lookup_table[folder]
 
+            # run the model and store the result
             result = DeepFace.verify(template_image, test_image, model, detector)
-            print(result)
+
+            # is the template and test the same person?
+            is_match = _test_for_match(pair_list, template_image_index, test_image_index)
+            tp, tn, fp, fn, pos_test_count, neg_test_count = _calculate_results(is_match, result, tp, tn, fp, fn, pos_test_count, neg_test_count)
 
         if count > 1:
             break
         count +=1
 
-    return tp, tn, fp, fn, test_count
+    return tp, tn, fp, fn, pos_test_count, neg_test_count
 
 def _init_values(race):
     pairs_file_path = 'rfw/test/txts/' + race + '/' + race + '_pairs.txt'
@@ -101,7 +142,8 @@ def main():
     # races = ['African', 'Asian', 'Caucasian', 'Indian']
     races = ['African']
 
-    folder_size = []    # list of tuples. each tuple contains the folder name and number of people in folder
+
+    folder_size_list = []    # list of tuples. each tuple contains the folder name and number of people in folder
     lookup_table = {}   # a dictionary to stores pairs from the same folder only.
 
     # DeepFace settings
@@ -110,14 +152,16 @@ def main():
 
     for race in races:
         print("Race:", race)
-        folder_size, lookup_table = _init_values(race)
-        tp, tn, fp, fn, test_count = _run_tests(race, model, detector, folder_size, lookup_table)
+        folder_size_list, lookup_table = _init_values(race)
+        tp, tn, fp, fn, pos_test_count, neg_test_count = _run_tests(race, model, detector, folder_size_list, lookup_table)
 
-        # print("True Positives:", tp)
-        # print("True Negatives:", tn)
-        # print("False Positives:", fp)
-        # print("False Negatives:", fn)
-        # print("Total Tests:", test_count)
+        print("True Positives:", tp)
+        print("True Negatives:", tn)
+        print("False Positives:", fp)
+        print("False Negatives:", fn)
+        print("Tests where Template and Test images match: ", pos_test_count)
+        print("Tests where Template and Test images do NOT match: ", neg_test_count)
+        print("Total Tests:", pos_test_count + neg_test_count)
 
 
 if __name__ == "__main__":
