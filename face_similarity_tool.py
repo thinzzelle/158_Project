@@ -34,6 +34,14 @@ from deepface import DeepFace
 
 # Function to count true positives, true negatives, false positives, and false negatives
 
+def _print_results(races, metrics):
+    for race in races:
+        print("\nRace:", race)
+        race_metrics = metrics[race]
+        for key, value in race_metrics.items():
+            print(key + ':', value)
+        print("Total Tests:", race_metrics['Positive Test Count'] + race_metrics['Negative Test Count'], '\n')
+
 def _get_template_image(race, folder):
     return 'rfw/test/data/' + race + '/' + folder + '/' + folder + '_0001.jpg', 1
 
@@ -73,6 +81,8 @@ def _calculate_results(is_match, result, metrics):
         metrics["True Negative"] += 1
 
 def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
+    print("\nRace:", race, "||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+
     # iterate through each folder
     count = 0
     for folder, size in folder_size_list:
@@ -102,7 +112,6 @@ def _init_values(race):
 
     folder_size = []
     with open(people_file_path, 'r') as f:
-        count = 0
         for line in f:
             group, num_people = line.strip().split('\t')
             folder_size.append((group, int(num_people)))
@@ -120,99 +129,40 @@ def _init_values(race):
                 else:
                     lookup_table[key] = [value]
 
-    # count = 1
-    # for key, value in lookup_table.items():
-    #     if len(value) > 1:
-    #         print(count, key, value)
-    #     count += 1
-
     return folder_size, lookup_table
+
+def _init_metrics(race, metrics):
+    metrics[race] = {
+        'True Positive': 0,
+        'True Negative': 0,
+        'False Positive': 0,
+        'False Negative': 0,
+        'Positive Test Count': 0,
+        'Negative Test Count': 0
+    }
 
 # Main function
 def main():
-    # races = ['African', 'Asian', 'Caucasian', 'Indian']
-    races = ['African']
-    metrics = {'True Positive': 0,
-               'True Negative': 0,
-               'False Positive': 0,
-               'False Negative': 0,
-               'Positive Test Count': 0,
-               'Negative Test Count': 0}
-
-    folder_size_list = []    # list of tuples. each tuple contains the folder name and number of people in folder
-    lookup_table = {}   # a dictionary to stores pairs from the same folder only.
+    races = ['African', 'Asian', 'Caucasian', 'Indian']
+    # races = ['African']
 
     # DeepFace settings
     model = 'Facenet'
     detector = 'mtcnn'
 
+    # stores true positive, true negative, false positive, false negative, positive test count, negative test count for each race
+    metrics = {}
+
     for race in races:
-        print("Race:", race)
+        folder_size_list = []   # list of tuples. each tuple contains the folder name and number of people in folder
+        lookup_table = {}       # a dictionary to stores pairs from the same folder only.
         folder_size_list, lookup_table = _init_values(race)
+        _init_metrics(race, metrics)
 
-        _run_tests(race, model, detector, folder_size_list, lookup_table, metrics)
+        _run_tests(race, model, detector, folder_size_list, lookup_table, metrics[race])
 
-        for key, value in metrics.items():
-            print(key, value)
-        print("Total Tests:", metrics['Positive Test Count'] + metrics['Negative Test Count'])
+    _print_results(races, metrics)
 
 
 if __name__ == "__main__":
     main()
-
-
-
-
-# ADDITIONAL CODE SNIPPETS
-
-
-#--------------- _find_folder_size_and_pairs
-# images_file_path = txt_folder + '/' + race + '/' + race + '_images.txt'
-    # print(pairs_file, images_file_path, people_file_path)
-
-    # Read image list
-    # image_list = []
-    # with open(images_file_path, 'r') as f:
-    #
-    #     count = 0
-    #     for line in f:
-    #         img_name, label = line.strip().split('\t')
-    #         img_path = data_folder + '/' + race + '/' + img_name
-    #
-    #         # print(img_path, label)
-    #         image_list.append((img_path, int(label)))
-    #
-    #         count += 1
-    #         if count > 1:
-    #             break
-    #
-    # print(image_list)
-
-# with open(lookup_table, 'r') as f:
-#     for line in f:
-#         if test_count >= num_photos:  # Check a given number of photos
-#             break
-#
-#         try:
-#             img1_id, img1_label, img2_id, img2_label = line.strip().split('\t')
-#             img1_path = [img_path for img_path, label in image_list if img1_id in img_path][0]
-#             img2_path = [img_path for img_path, label in image_list if img2_id in img_path][0]
-#
-#             # Compare images
-#             result = DeepFace.verify(img1_path, img2_path, model, detector)
-#
-#             if result['verified']:
-#                 if img1_label == img2_label:
-#                     tp += 1
-#                 else:
-#                     fp += 1
-#             else:
-#                 if img1_label == img2_label:
-#                     fn += 1
-#                 else:
-#                     tn += 1
-#
-#             test_count += 1
-#
-#         except Exception as e:
-#             print("Exception occurred:", str(e))
