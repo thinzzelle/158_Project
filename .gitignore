@@ -1,6 +1,11 @@
 img1.jpg
 img2.jpg
 .idea
+African_results.txt
+Asian_results.txt
+Caucasian_results.txt
+Indian_results.txt
+exceptions.txt
 
 rfw/
 fair_face/

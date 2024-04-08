@@ -12,3 +12,18 @@ found = DeepFace.find(img_path='img3.jpg', db_path='Jessica_and_Angelina/', mode
 
 print(result['verified'], result['model'], "Age:", obj[0]['age'], 'Emotion:', obj[0]['dominant_emotion'], 'Race:', obj[0]['dominant_race'], 'Gender:', obj[0]['dominant_gender'])
 
+
+# Code Snippets
+
+# backends = [
+#   'opencv',
+#   'ssd',
+#   'dlib',
+#   'mtcnn',
+#   'retinaface',
+#   'mediapipe',
+#   'yolov8',
+#   'yunet',
+#   'fastmtcnn',
+# ]
+# detector_backend = backends[1]
