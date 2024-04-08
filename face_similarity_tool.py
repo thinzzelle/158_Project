@@ -33,14 +33,16 @@
 from deepface import DeepFace
 
 # Function to count true positives, true negatives, false positives, and false negatives
-def run_verification(image_list, pairs_file, model_name, detector_backend, num_photos):
-    tp = 0
-    tn = 0
-    fp = 0
-    fn = 0
+def _run_tests(model, detector, foler_size, pairs):
+    data_folder = 'rfw/test/data'
+
+    tp, tn, fp, fn = 0, 0, 0, 0
     test_count = 0
 
-    with open(pairs_file, 'r') as f:
+    num_photos = 1 #! ----Error
+    image_list = [] #! ------ERROR
+
+    with open(pairs, 'r') as f:
         for line in f:
             if test_count >= num_photos:  # Check a given number of photos
                 break
@@ -51,7 +53,7 @@ def run_verification(image_list, pairs_file, model_name, detector_backend, num_p
                 img2_path = [img_path for img_path, label in image_list if img2_id in img_path][0]
 
                 # Compare images
-                result = DeepFace.verify(img1_path, img2_path, model_name, detector_backend)
+                result = DeepFace.verify(img1_path, img2_path, model, detector)
 
                 if result['verified']:
                     if img1_label == img2_label:
@@ -71,87 +73,85 @@ def run_verification(image_list, pairs_file, model_name, detector_backend, num_p
 
     return tp, tn, fp, fn, test_count
 
-def open_files(race, people, images, pairs, debug):
+def _find_folder_size_and_pairs(race):
     # Folder and file paths
-    data_folder = 'rfw/test/data'
     txt_folder = 'rfw/test/txts'
 
-
-    pairs_file = txt_folder + '/' + race + '/' + race + '_pairs.txt'
-    images_file_path = txt_folder + '/' + race + '/' + race + '_images.txt'
+    pairs_file_path = txt_folder + '/' + race + '/' + race + '_pairs.txt'
     people_file_path = txt_folder + '/' + race + '/' + race + '_people.txt'
+    # images_file_path = txt_folder + '/' + race + '/' + race + '_images.txt'
 
     print()
     # print(pairs_file, images_file_path, people_file_path)
 
     # Read image list
-    image_list = []
-    with open(images_file_path, 'r') as f:
-
-        count = 0
-        for line in f:
-            img_name, label = line.strip().split('\t')
-            img_path = data_folder + '/' + race + '/' + img_name
-
-            # print(img_path, label)
-            image_list.append((img_path, int(label)))
-
-            count += 1
-            if debug == True and count > 1:
-                break
-
-    print(image_list)
+    # image_list = []
+    # with open(images_file_path, 'r') as f:
+    #
+    #     count = 0
+    #     for line in f:
+    #         img_name, label = line.strip().split('\t')
+    #         img_path = data_folder + '/' + race + '/' + img_name
+    #
+    #         # print(img_path, label)
+    #         image_list.append((img_path, int(label)))
+    #
+    #         count += 1
+    #         if count > 1:
+    #             break
+    #
+    # print(image_list)
 
     # Read number of people
 
-    image_folders = []
+    folder_size = []
     with open(people_file_path, 'r') as f:
-
         count = 0
         for line in f:
             group, num_people = line.strip().split('\t')
-            image_folders.append((group, int(num_people)))
-            count += 1
-            if debug == True and count > 1:
+            folder_size.append((group, int(num_people)))
+            # count += 1
+            # if count > 1:
+            #     break
+
+    pairs = {}
+    with open(pairs_file_path, 'r') as f:
+        count = 0
+        for line in f:
+            if count > 1:
                 break
+
+    return folder_size, pairs
 
 # Main function
 def main():
-    debug = True
     races = ['African', 'Asian', 'Caucasian', 'Indian']
 
-    # group name, count
-    people = []     # group name, count
 
-    #  image name, index
-    #  m.0c7mh2_0003.jpg	0
-    images = []
-
-    # m.0h1crds	2	3
-    # m.04zxpvp	2	m.03ggz1	5
-    pairs = []
-
-    people, images, pairs = open_files(race, people, images, pairs, debug)
+    folder_size = []    # list of tuples containing folder name and number of people in folder
+    pairs = {}          # pairs from the same folder only
 
     # DeepFace settings
-    model_name = 'Facenet'
-    detector_backend = 'mtcnn'
+    model = 'Facenet'
+    detector = 'mtcnn'
 
     for race in races:
-
+        folder_size, pairs = _find_folder_size_and_pairs(race)
 
         print("Race:", race)
-        tp, tn, fp, fn, test_count = run_verification(
-            image_list, pairs_file, model_name, detector_backend, image_folders
-        )
 
-        print("True Positives:", tp)
-        print("True Negatives:", tn)
-        print("False Positives:", fp)
-        print("False Negatives:", fn)
-        print("Total Tests:", test_count)
-        print("Total People:", num_people)
-        print()
+        print(folder_size)
+        print(pairs)
+
+        # tp, tn, fp, fn, test_count = _run_tests(model, detector, folder_size, pairs)
+
+        # print("True Positives:", tp)
+        # print("True Negatives:", tn)
+        # print("False Positives:", fp)
+        # print("False Negatives:", fn)
+        # print("Total Tests:", test_count)
+        # print("Total People:", num_people)
+        # print()
 
 if __name__ == "__main__":
     main()
