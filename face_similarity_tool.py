@@ -119,7 +119,6 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
     with open(f'{race}_results.txt', 'w') as results_file:
 
         # iterate through each folder
-        count = 0
         for folder, size in folder_size_list:
             template_image, template_image_index = _get_template_image(race, folder)
 
@@ -159,12 +158,6 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
                     print("An exception occurred while writing results to file:", str(e))
                     exception_list.append(e)
                     exception_write_to_file_count += 1
-
-
-
-            if count > 1:
-                break
-            count += 1
 
 
 def _init_values(race):
