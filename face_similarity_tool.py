@@ -73,15 +73,76 @@ def _run_tests(model, detector, foler_size, pairs):
 
     return tp, tn, fp, fn, test_count
 
-def _find_folder_size_and_pairs(race):
-    # Folder and file paths
-    txt_folder = 'rfw/test/txts'
+def _init_folder_size_and_lookup_table(race):
+    pairs_file_path = 'rfw/test/txts/' + race + '/' + race + '_pairs.txt'
+    people_file_path = 'rfw/test/txts/' + race + '/' + race + '_people.txt'
 
-    pairs_file_path = txt_folder + '/' + race + '/' + race + '_pairs.txt'
-    people_file_path = txt_folder + '/' + race + '/' + race + '_people.txt'
-    # images_file_path = txt_folder + '/' + race + '/' + race + '_images.txt'
+    folder_size = []
+    with open(people_file_path, 'r') as f:
+        count = 0
+        for line in f:
+            group, num_people = line.strip().split('\t')
+            folder_size.append((group, int(num_people)))
 
-    print()
+    lookup_table = {}
+    with open(pairs_file_path, 'r') as f:
+        for line in f:
+            values = line.strip().split('\t')
+
+            # only accept pairs from the same file
+            if len(values) == 3:
+                print(values)
+                lookup_table[values[0]] = [int(values[1]),int(values[2])]
+
+    return folder_size, lookup_table
+
+# Main function
+def main():
+    # races = ['African', 'Asian', 'Caucasian', 'Indian']
+    races = ['African']
+
+    folder_size = []    # list of tuples containing folder name and number of people in folder
+    lookup_table = {}   # stores pairs from the same folder only
+
+    # DeepFace settings
+    model = 'Facenet'
+    detector = 'mtcnn'
+
+    for race in races:
+
+        print("Race:", race)
+
+        folder_size, lookup_table = _init_folder_size_and_lookup_table(race)
+        # print(folder_size)
+
+        # Assuming 'pairs' is your dictionary
+        count = 0
+        for key, value in lookup_table.items():
+            print(count, key, value)
+            count += 1
+
+
+        # tp, tn, fp, fn, test_count = _run_tests(model, detector, folder_size, pairs)
+
+        # print("True Positives:", tp)
+        # print("True Negatives:", tn)
+        # print("False Positives:", fp)
+        # print("False Negatives:", fn)
+        # print("Total Tests:", test_count)
+        # print("Total People:", num_people)
+        # print()
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+# ADDITIONAL CODE SNIPPETS
+
+
+#--------------- _find_folder_size_and_pairs
+ # images_file_path = txt_folder + '/' + race + '/' + race + '_images.txt'
     # print(pairs_file, images_file_path, people_file_path)
 
     # Read image list
@@ -101,57 +162,3 @@ def _find_folder_size_and_pairs(race):
     #             break
     #
     # print(image_list)
-
-    # Read number of people
-
-    folder_size = []
-    with open(people_file_path, 'r') as f:
-        count = 0
-        for line in f:
-            group, num_people = line.strip().split('\t')
-            folder_size.append((group, int(num_people)))
-            # count += 1
-            # if count > 1:
-            #     break
-
-    pairs = {}
-    with open(pairs_file_path, 'r') as f:
-        count = 0
-        for line in f:
-            if count > 1:
-                break
-
-    return folder_size, pairs
-
-# Main function
-def main():
-    races = ['African', 'Asian', 'Caucasian', 'Indian']
-
-
-    folder_size = []    # list of tuples containing folder name and number of people in folder
-    pairs = {}          # pairs from the same folder only
-
-    # DeepFace settings
-    model = 'Facenet'
-    detector = 'mtcnn'
-
-    for race in races:
-        folder_size, pairs = _find_folder_size_and_pairs(race)
-
-        print("Race:", race)
-
-        print(folder_size)
-        print(pairs)
-
-        # tp, tn, fp, fn, test_count = _run_tests(model, detector, folder_size, pairs)
-
-        # print("True Positives:", tp)
-        # print("True Negatives:", tn)
-        # print("False Positives:", fp)
-        # print("False Negatives:", fn)
-        # print("Total Tests:", test_count)
-        # print("Total People:", num_people)
-        # print()
-
-if __name__ == "__main__":
-    main()
