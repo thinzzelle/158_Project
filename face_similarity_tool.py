@@ -50,36 +50,29 @@ def _test_for_match(pair_list, template_image_index, test_image_index):
             return True
     return False
 
-def _calculate_results(is_match, result, tp, tn, fp, fn, pos_test_count, neg_test_count):
+def _calculate_results(is_match, result, metrics):
     if is_match == True:
-        pos_test_count += 1
+        metrics['Positive Test Count'] +=1
     else:
-        neg_test_count += 1
+        metrics['Negative Test Count'] += 1
 
     print("is_match", is_match)
     print("result", result['verified'])
 
     if is_match == True and result['verified'] == True:
         print("Result True Positive")
-        tp += 1
+        metrics["True Positive"] += 1
     elif is_match == True and result['verified'] == False:
         print("Result False Negative")
-        fn += 1
+        metrics["False Negative"] += 1
     elif is_match == False and result['verified'] == True:
         print("Result False Positive")
-        fp += 1
+        metrics["False Positive"] += 1
     elif is_match == False and result['verified'] == False:
         print("Result True Negative")
-        tn += 1
+        metrics["True Negative"] += 1
 
-    return tp, tn, fp, fn, pos_test_count, neg_test_count
-
-def _run_tests(race, model, detector, folder_size_list, lookup_table):
-
-    pos_test_count = 0         # number of tests performed where the template and test are the same person
-    neg_test_count = 0         # number of tests performed where the template and test are NOT the same person
-    tp, tn, fp, fn = 0, 0, 0, 0     # true positive, true negative, false positive, false negative
-
+def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
     # iterate through each folder
     count = 0
     for folder, size in folder_size_list:
@@ -97,13 +90,11 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table):
 
             # is the template and test the same person?
             is_match = _test_for_match(pair_list, template_image_index, test_image_index)
-            tp, tn, fp, fn, pos_test_count, neg_test_count = _calculate_results(is_match, result, tp, tn, fp, fn, pos_test_count, neg_test_count)
+            _calculate_results(is_match, result, metrics)
 
         if count > 1:
             break
         count +=1
-
-    return tp, tn, fp, fn, pos_test_count, neg_test_count
 
 def _init_values(race):
     pairs_file_path = 'rfw/test/txts/' + race + '/' + race + '_pairs.txt'
@@ -141,7 +132,12 @@ def _init_values(race):
 def main():
     # races = ['African', 'Asian', 'Caucasian', 'Indian']
     races = ['African']
-
+    metrics = {'True Positive': 0,
+               'True Negative': 0,
+               'False Positive': 0,
+               'False Negative': 0,
+               'Positive Test Count': 0,
+               'Negative Test Count': 0}
 
     folder_size_list = []    # list of tuples. each tuple contains the folder name and number of people in folder
     lookup_table = {}   # a dictionary to stores pairs from the same folder only.
@@ -153,15 +149,12 @@ def main():
     for race in races:
         print("Race:", race)
         folder_size_list, lookup_table = _init_values(race)
-        tp, tn, fp, fn, pos_test_count, neg_test_count = _run_tests(race, model, detector, folder_size_list, lookup_table)
 
-        print("True Positives:", tp)
-        print("True Negatives:", tn)
-        print("False Positives:", fp)
-        print("False Negatives:", fn)
-        print("Tests where Template and Test images match: ", pos_test_count)
-        print("Tests where Template and Test images do NOT match: ", neg_test_count)
-        print("Total Tests:", pos_test_count + neg_test_count)
+        _run_tests(race, model, detector, folder_size_list, lookup_table, metrics)
+
+        for key, value in metrics.items():
+            print(key, value)
+        print("Total Tests:", metrics['Positive Test Count'] + metrics['Negative Test Count'])
 
 
 if __name__ == "__main__":
