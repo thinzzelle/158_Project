@@ -82,6 +82,8 @@ def _calculate_results(is_match, result, race_metrics, test_time):
 
     race_metrics['Total Test Time'] += test_time
     race_metrics['Total Test Count'] += 1
+    print("Total Test Count:\t", race_metrics['Total Test Count'])
+
 
 
 def _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder, results_file):
