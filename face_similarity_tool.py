@@ -1,4 +1,5 @@
 from deepface import DeepFace
+import time
 
 exception_list = []
 exception_verification_error_count = 0
@@ -10,17 +11,32 @@ def _write_exceptions_to_file():
     with open(filename, 'w') as file:
         for exception in exception_list:
             file.write(str(exception) + '\n')
-    print("Exceptions written to", filename)
 
 
-def _print_results(races, metrics):
+def _write_results_to_file(races, metrics, model, detector):
+    filename = 'Race_results.txt'
+    with open(filename, 'w') as file:
+        file.write(f'Model: {model}\nDetector: {detector}\n')
+        for race in races:
+            race_metrics = metrics[race]
+            file.write(f'\nRace: {race}\n')
+            for key, value in race_metrics.items():
+                file.write(f'{key}: {value}\n')
+
+            average_test_time = race_metrics['Total Test Time'] / race_metrics['Total Test Count']
+            file.write(f'Time Per Test: {average_test_time} \n')
+
+
+def _print_results_to_console(races, metrics, model, detector):
+    print("\nModel:", model)
+    print("Detector", detector)
     for race in races:
         print("\nRace:", race)
         race_metrics = metrics[race]
         for key, value in race_metrics.items():
             print(key + ':', value)
-        print("Total Tests:", race_metrics['Positive Test Count'] + race_metrics['Negative Test Count'], '\n')
-    _write_exceptions_to_file()
+        average_test_time = race_metrics['Total Test Time'] / race_metrics['Total Test Count']
+        print(f'Time Per Test: {average_test_time} ')
 
 
 def _get_template_image(race, folder):
@@ -42,7 +58,7 @@ def _test_for_match(pair_list, template_image_index, test_image_index):
     return False
 
 
-def _calculate_results(is_match, result, race_metrics):
+def _calculate_results(is_match, result, race_metrics, test_time):
     if is_match:
         race_metrics['Positive Test Count'] += 1
     else:
@@ -51,7 +67,7 @@ def _calculate_results(is_match, result, race_metrics):
     print("Is Match?:       ", is_match)
     print("Model Prediction:", result['verified'])
 
-    if is_match and result['verified'] == True:
+    if is_match and result['verified']:
         print("Result: \t  True Positive")
         race_metrics["True Positive"] += 1
     elif is_match and not result['verified']:
@@ -63,6 +79,9 @@ def _calculate_results(is_match, result, race_metrics):
     elif not is_match and not result['verified']:
         print("Result: \t  True Negative")
         race_metrics["True Negative"] += 1
+
+    race_metrics['Total Test Time'] += test_time
+    race_metrics['Total Test Count'] += 1
 
 
 def _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder, results_file):
@@ -85,11 +104,16 @@ def _write_test_result_to_file(template_image_index, test_image_index, is_match,
 
 
 def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
-    print("\n||||||||||||||||||||||||||| Race:", race, "|||||||||||||||||||||||||||||||||||||||||||||")
+    print("\n|||||||||| Race:", race, "||||||||||||||")
 
     global exeption_list
     global exception_write_to_file_count
     global exception_verification_error_count
+
+    total_test_time = 0  # Variable to store the total test time
+    total_tests = 0  # Variable to store the total number of tests
+
+    metrics_race = metrics[race]
 
     # Open results file for writing
     with open(f'{race}_results.txt', 'w') as results_file:
@@ -98,7 +122,9 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
         count = 0
         for folder, size in folder_size_list:
             template_image, template_image_index = _get_template_image(race, folder)
+
             print("\n--------------- Testing Folder:", folder, "------------------")
+            print("Race:\t", race)
 
             # run tests
             for i in range(2, size + 1):
@@ -106,14 +132,20 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
                 print("\nTemplate:", template_image, "\tTest:", test_image)
                 pair_list = lookup_table[folder]
 
-                # run model and store result
+                # run tests
                 try:
+                    start_time = time.time()  # start the timer
+
+                    # run model and store the result
                     result = DeepFace.verify(template_image, test_image, model, detector)
+
+                    end_time = time.time()
+                    test_time = end_time - start_time
 
                     # is the template and test the same person?
                     is_match = _test_for_match(pair_list, template_image_index, test_image_index)
-                    _calculate_results(is_match, result, metrics[race])
 
+                    _calculate_results(is_match, result, metrics_race, test_time)
                 except Exception as e:
                     print("An exception occured:", str(e))
                     exception_list.append(e)
@@ -121,11 +153,14 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
 
                 # write results of test to file
                 try:
-                    _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder, results_file)
+                    _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder,
+                                               results_file)
                 except Exception as e:
                     print("An exception occurred while writing results to file:", str(e))
                     exception_list.append(e)
                     exception_write_to_file_count += 1
+
+
 
             if count > 1:
                 break
@@ -165,31 +200,27 @@ def _init_metrics(race, metrics):
         'False Positive': 0,
         'False Negative': 0,
         'Positive Test Count': 0,
-        'Negative Test Count': 0
+        'Negative Test Count': 0,
+        'Total Test Count': 0,
+        'Total Test Time': 0
     }
 
 
-# Main function
 def main():
-    # races = ['African', 'Asian', 'Caucasian', 'Indian']
-    races = ['African']
-
-    # DeepFace settings
+    races = ['African', 'Asian', 'Caucasian', 'Indian']
     model = 'Facenet'
     detector = 'mtcnn'
-
-    # stores true positive, true negative, false positive, false negative, positive test count, negative test count for each race
     metrics = {}
 
     for race in races:
-        folder_size_list = []  # list of tuples. each tuple contains the folder name and number of people in folder
-        lookup_table = {}  # a dictionary to stores pairs from the same folder only.
         folder_size_list, lookup_table = _init_values(race)
         _init_metrics(race, metrics)
 
         _run_tests(race, model, detector, folder_size_list, lookup_table, metrics)
 
-    _print_results(races, metrics)
+    _print_results_to_console(races, metrics, model, detector)
+    _write_results_to_file(races, metrics, model, detector)
+    _write_exceptions_to_file()
 
 
 if __name__ == "__main__":
