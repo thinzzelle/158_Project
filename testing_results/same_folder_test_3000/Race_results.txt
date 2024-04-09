@@ -1,0 +1,58 @@
+Model: Facenet
+Detector: mtcnn
+
+Race: African
+True Positive: 886
+True Negative: 2317
+False Positive: 3245
+False Negative: 959
+Positive Test Count: 1845
+Negative Test Count: 5562
+Total Test Count: 7407
+Total Test Time: 8063.348119974136
+Start Time: 2024-04-09 02:41:24.144320
+End Time: 
+Time Per Test: 1.08861186984935 
+
+
+Race: Asian
+True Positive: 918
+True Negative: 1741
+False Positive: 3854
+False Negative: 644
+Positive Test Count: 1562
+Negative Test Count: 5595
+Total Test Count: 7157
+Total Test Time: 7701.779689073563
+Start Time: 2024-04-09 04:56:59.475331
+End Time: 
+Time Per Test: 1.0761184419552274 
+
+
+Race: Caucasian
+True Positive: 653
+True Negative: 2748
+False Positive: 2630
+False Negative: 1169
+Positive Test Count: 1822
+Negative Test Count: 5378
+Total Test Count: 7200
+Total Test Time: 7773.958719491959
+Start Time: 2024-04-09 07:06:51.492545
+End Time: 
+Time Per Test: 1.0797164888183275 
+
+
+Race: Indian
+True Positive: 815
+True Negative: 2324
+False Positive: 3181
+False Negative: 967
+Positive Test Count: 1782
+Negative Test Count: 5505
+Total Test Count: 7287
+Total Test Time: 7964.480694055557
+Start Time: 2024-04-09 09:17:56.754182
+End Time: 
+Time Per Test: 1.0929711395712305 
+
