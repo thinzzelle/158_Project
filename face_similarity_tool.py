@@ -2,20 +2,22 @@ from deepface import DeepFace
 import time
 import tensorflow as tf
 
+number_of_folders_to_test = 1
+
 exception_list = []
 exception_verification_error_count = 0
 exception_write_to_file_count = 0
 
 
 def _write_exceptions_to_file():
-    filename = 'exceptions.txt'
+    filename = 'tmp/exceptions.txt'
     with open(filename, 'w') as file:
         for exception in exception_list:
             file.write(str(exception) + '\n')
 
 
 def _write_results_to_file(races, metrics, model, detector):
-    filename = 'Race_results.txt'
+    filename = 'tmp/Race_results.txt'
     with open(filename, 'w') as file:
         file.write(f'Model: {model}\nDetector: {detector}\n')
         for race in races:
@@ -123,10 +125,10 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
     metrics_race = metrics[race]
 
     # Open results file for writing
-    with open(f'{race}_results.txt', 'w') as results_file:
+    with open(f'tmp/{race}_results.txt', 'w') as results_file:
 
         # iterate through each folder
-        count = 0
+        count = 1
         for folder, size in folder_size_list:
             template_image, template_image_index = _get_template_image(race, folder)
 
@@ -169,7 +171,7 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
                     exception_write_to_file_count += 1
 
             count += 1
-            if count > 1000:
+            if count > number_of_folders_to_test:
                 break
 
 
