@@ -77,6 +77,25 @@ def _write_final_results_to_file(races, metrics, model, detector):
         exception_list.append(exception_info)
     
 
+def _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder, results_file, test_time):
+    results_file.write(
+        f'{folder}\t\t'
+        f'{template_image_index}\t\t'
+        f'{test_image_index}\t\t'
+        f'{int(is_match)}\t\t'
+        f'{int(result["verified"])}\t\t')
+
+    if is_match and result['verified']:
+        results_file.write("tp\t\t")
+    elif is_match and not result['verified']:
+        results_file.write("fn\t\t")
+    elif not is_match and result['verified']:
+        results_file.write("fp\t\t")
+    elif not is_match and not result['verified']:
+        results_file.write("tn\t\t")
+
+    results_file.write(f'{test_time}\n')
+
 
 def _print_results_to_console(races, metrics, model, detector):
     print("\nModel:", model)
@@ -152,28 +171,6 @@ def _calculate_results(is_match, result, race_metrics, test_time):
     print("Total Test Count:\t", race_metrics['Total Test Count'])
 
 
-
-def _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder, results_file, test_time):
-    results_file.write(
-        f'folder {folder}'
-        f'\ttemp {template_image_index}'
-        f'\t test {test_image_index}'
-        f'\t match? {int(is_match)}'
-        f'\tprediction {int(result["verified"])}'
-        f'\tResult:  ')
-
-    if is_match and result['verified']:
-        results_file.write("tp\n")
-    elif is_match and not result['verified']:
-        results_file.write("fn\n")
-    elif not is_match and result['verified']:
-        results_file.write("fp\n")
-    elif not is_match and not result['verified']:
-        results_file.write("tn\n")
-
-    results_file.write(f'Test Time: {test_time}\n')
-
-
 def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics, folder_test_limit):
     print("\n|||||||||| Race:", race, "||||||||||||||")
 
@@ -186,6 +183,9 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics, f
 
     # Open results file for writing
     with open(f'tmp/{race}_results.txt', 'w') as results_file:
+
+        # Write the header of results file
+        results_file.write('Folder\t\tTemplate\tTest\tMatch?\tPredict\tResult\tTest Time\n')
 
         # iterate through each folder
         count = 1
@@ -273,10 +273,10 @@ def _init_metrics(race, metrics):
 
 def main():
     races = ['African', 'Asian', 'Caucasian', 'Indian']
-    model = 'Facenet'
+    model = 'Facenet512'
     detector = 'mtcnn'
     metrics = {}
-    folder_test_limit = 1
+    folder_test_limit = 3000
 
     for race in races:
         folder_size_list, lookup_table = _init_values(race)
