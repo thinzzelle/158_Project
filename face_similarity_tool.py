@@ -1,11 +1,11 @@
 from deepface import DeepFace
 import time
 import tensorflow as tf
+from datetime import datetime
 
 number_of_folders_to_test = 1
 
 exception_list = []
-exception_verification_error_count = 0
 exception_write_to_file_count = 0
 
 
@@ -15,6 +15,14 @@ def _write_exceptions_to_file():
         for exception in exception_list:
             file.write(str(exception) + '\n')
 
+def _calculate_scores(race_metrics):
+    precision = race_metrics['True Positive']/(race_metrics['True Positive']+race_metrics['False Positive'])
+    recall = race_metrics['True Positive']/(race_metrics['True Positive']+race_metrics['False Negative'])    
+    f1_score = 2 * precision * recall / (precision + recall)
+    accuracy = (race_metrics['True Positive']+race_metrics['True Negative'])/race_metrics['Total Test Count']
+    specificity = race_metrics['True Negative']/(race_metrics['True Negative']+race_metrics['False Positive'])
+
+    return f1_score, accuracy, recall, precision, specificity
 
 def _write_results_to_file(races, metrics, model, detector):
     filename = 'tmp/Race_results.txt'
@@ -27,7 +35,14 @@ def _write_results_to_file(races, metrics, model, detector):
                 file.write(f'{key}: {value}\n')
 
             average_test_time = race_metrics['Total Test Time'] / race_metrics['Total Test Count']
-            file.write(f'Time Per Test: {average_test_time} \n')
+            # f1_score, accuracy, recall, precision, specificity = _calculate_scores(race_metrics)
+
+            file.write(f'Time Per Test: {average_test_time} \n\n')
+            # file.write(f'F1 Score: {f1_score}\n')
+            # file.write(f'Accuracy: {accuracy}\n')
+            # file.write(f'Recall: {recall}\n')
+            # file.write(f'Precision: {precision}\n')
+            # file.write(f'Specificity: {specificity}\n')
 
 
 def _print_results_to_console(races, metrics, model, detector):
@@ -38,8 +53,16 @@ def _print_results_to_console(races, metrics, model, detector):
         race_metrics = metrics[race]
         for key, value in race_metrics.items():
             print(key + ':', value)
+        
         average_test_time = race_metrics['Total Test Time'] / race_metrics['Total Test Count']
-        print(f'Time Per Test: {average_test_time} ')
+        # f1_score, accuracy, recall, precision, specificity = _calculate_scores(race_metrics)
+        
+        print(f'Avg Test Time: {average_test_time}\n')
+        # print(f'F1 Score: {f1_score}')
+        # print(f'Accuracy: {accuracy}')
+        # print(f'Recall: {recall}')
+        # print(f'Precision: {precision}')
+        # print(f'Specificity: {specificity}\n')
 
 
 def _get_template_image(race, folder):
@@ -116,8 +139,7 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
     print("\n|||||||||| Race:", race, "||||||||||||||")
 
     global exeption_list
-    global exception_write_to_file_count
-    global exception_verification_error_count
+    global number_of_folders_to_test
 
     total_test_time = 0  # Variable to store the total test time
     total_tests = 0  # Variable to store the total number of tests
@@ -157,21 +179,15 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
                     is_match = _test_for_match(pair_list, template_image_index, test_image_index)
 
                     _calculate_results(is_match, result, metrics_race, test_time)
-                except Exception as e:
-                    print("An exception occured:", str(e))
-                    exception_list.append(e)
-                    exception_verification_error_count += 1
 
-                # write results of test to file
-                try:
                     _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder, results_file, test_time)
                 except Exception as e:
-                    print("An exception occurred while writing results to file:", str(e))
-                    exception_list.append(e)
-                    exception_write_to_file_count += 1
+                    print(str(e))
+                    exception_list.append(e, race, folder, template_image, test_image)
 
             count += 1
             if count > number_of_folders_to_test:
+                metrics_race['End Time'] = datetime.now()
                 break
 
 
@@ -210,7 +226,9 @@ def _init_metrics(race, metrics):
         'Positive Test Count': 0,
         'Negative Test Count': 0,
         'Total Test Count': 0,
-        'Total Test Time': 0
+        'Total Test Time': 0,
+        'Start Time': datetime.now(),
+        'End Time': ''
     }
 
 
