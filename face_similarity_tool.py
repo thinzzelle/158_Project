@@ -82,18 +82,20 @@ def _calculate_results(is_match, result, race_metrics, test_time):
 
     race_metrics['Total Test Time'] += test_time
     race_metrics['Total Test Count'] += 1
+
+    print("Test Time:\t", test_time)
     print("Total Test Count:\t", race_metrics['Total Test Count'])
 
 
 
-def _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder, results_file):
+def _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder, results_file, test_time):
     results_file.write(
-        f'folder: {folder}'
-        f'\ttemp: {template_image_index}'
-        f'\t test: {test_image_index}'
-        f'\t match?: {int(is_match)}'
-        f'\tprediction: {int(result["verified"])}'
-        f'\tResult: ')
+        f'folder {folder}'
+        f'\ttemp {template_image_index}'
+        f'\t test {test_image_index}'
+        f'\t match? {int(is_match)}'
+        f'\tprediction {int(result["verified"])}'
+        f'\tResult:  ')
 
     if is_match and result['verified']:
         results_file.write("tp\n")
@@ -103,6 +105,8 @@ def _write_test_result_to_file(template_image_index, test_image_index, is_match,
         results_file.write("fp\n")
     elif not is_match and not result['verified']:
         results_file.write("tn\n")
+
+    results_file.write(f'Test Time: {test_time}\n')
 
 
 def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
@@ -155,8 +159,7 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
 
                 # write results of test to file
                 try:
-                    _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder,
-                                               results_file)
+                    _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder, results_file, test_time)
                 except Exception as e:
                     print("An exception occurred while writing results to file:", str(e))
                     exception_list.append(e)
