@@ -1,5 +1,6 @@
 from deepface import DeepFace
 import time
+import tensorflow as tf
 
 exception_list = []
 exception_verification_error_count = 0
@@ -147,6 +148,8 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
 
                     end_time = time.time()
                     test_time = end_time - start_time
+
+                    tf.keras.backend.clear_session()
 
                     # is the template and test the same person?
                     is_match = _test_for_match(pair_list, template_image_index, test_image_index)
