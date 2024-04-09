@@ -3,7 +3,7 @@ import time
 import tensorflow as tf
 from datetime import datetime
 
-number_of_folders_to_test = 1
+number_of_folders_to_test = 3000
 
 exception_list = []
 exception_write_to_file_count = 0
@@ -183,7 +183,8 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
                     _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder, results_file, test_time)
                 except Exception as e:
                     print(str(e))
-                    exception_list.append(e, race, folder, template_image, test_image)
+                    exception_info = [str(e), race, count, folder, template_image, test_image]
+                    exception_list.append(exception_info)
 
             count += 1
             if count > number_of_folders_to_test:
