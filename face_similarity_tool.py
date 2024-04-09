@@ -163,7 +163,7 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics):
                     exception_write_to_file_count += 1
 
             count += 1
-            if count > 3000:
+            if count > 1000:
                 break
 
 
