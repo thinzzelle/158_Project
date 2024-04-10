@@ -8,9 +8,11 @@ tmp/Indian_results.txt
 tmp/Race_results.txt
 tmp/exceptions.txt
 
+
 rfw/
 fair_face/
 deepface_env/
+deepface_cuda_env/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
