@@ -13,6 +13,7 @@ rfw/
 fair_face/
 deepface_env/
 deepface_cuda_env/
+deepface_conda_env/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

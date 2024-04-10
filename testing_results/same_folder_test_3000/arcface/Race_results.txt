@@ -1,0 +1,78 @@
+Model: ArcFace
+Detector: mtcnn
+
+Race: African
+True Positive: 1294
+True Negative: 1175
+False Positive: 4387
+False Negative: 551
+Positive Test Count: 1845
+Negative Test Count: 5562
+Total Test Count: 7407
+Total Test Time: 8327.490376710892
+Start Time: 2024-04-10 03:11:12.497792
+End Time: 
+Time Per Test: 1.1242730358729434 
+
+F1 Score: 0.34387456816369916
+Accuracy: 0.3333333333333333
+Recall: 0.7013550135501355
+Precision: 0.22777679985917973
+Specificity: 0.211254944264653
+
+Race: Asian
+True Positive: 1202
+True Negative: 974
+False Positive: 4621
+False Negative: 360
+Positive Test Count: 1562
+Negative Test Count: 5595
+Total Test Count: 7157
+Total Test Time: 7934.090151309967
+Start Time: 2024-04-10 05:30:32.582407
+End Time: 
+Time Per Test: 1.1085776374612222 
+
+F1 Score: 0.32552471225457
+Accuracy: 0.30403800475059384
+Recall: 0.7695262483994878
+Precision: 0.2064228061136871
+Specificity: 0.1740840035746202
+
+Race: Caucasian
+True Positive: 1276
+True Negative: 1243
+False Positive: 4135
+False Negative: 546
+Positive Test Count: 1822
+Negative Test Count: 5378
+Total Test Count: 7200
+Total Test Time: 7997.690751791
+Start Time: 2024-04-10 07:43:39.456201
+End Time: 
+Time Per Test: 1.1107903821931946 
+
+F1 Score: 0.35282731923130095
+Accuracy: 0.3498611111111111
+Recall: 0.7003293084522503
+Precision: 0.23581593051192015
+Specificity: 0.231126812941614
+
+Race: Indian
+True Positive: 1330
+True Negative: 1029
+False Positive: 4476
+False Negative: 452
+Positive Test Count: 1782
+Negative Test Count: 5505
+Total Test Count: 7287
+Total Test Time: 8155.561315774918
+Start Time: 2024-04-10 09:57:52.158524
+End Time: 
+Time Per Test: 1.11919326413818 
+
+F1 Score: 0.3505535055350554
+Accuracy: 0.32372718539865514
+Recall: 0.7463524130190797
+Precision: 0.22907337237340683
+Specificity: 0.18692098092643053
