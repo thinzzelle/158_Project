@@ -58,82 +58,90 @@ def _write_final_results_to_file(races, metrics, model, detector):
             file.write(f'Model: {model}\nDetector: {detector}\n')
             for race in races:
                 race_metrics = metrics[race]
-                file.write(f'\nRace: {race}\n')
+                file.write(f'\n{race}\n')
                 for key, value in race_metrics.items():
-                    file.write(f'{key}: {value}\n')
+                    if key == 'Total Test Time':
+                        file.write('\n')
+                    file.write(f'\t{key}: {value}\n')
 
-                average_test_time = race_metrics['Total Test Time'] /   race_metrics['Total Test Count']
+                test_time = race_metrics['Total Test Time']
+                test_count = race_metrics['Total Test Count']
+                average_test_time = test_time / test_count
+
                 f1_score, accuracy, recall, precision, specificity =  _calculate_scores(race_metrics)
 
-                file.write(f'Time Per Test: {average_test_time} \n\n')
-                file.write(f'F1 Score: {f1_score}\n')
-                file.write(f'Accuracy: {accuracy}\n')
-                file.write(f'Recall: {recall}\n')
-                file.write(f'Precision: {precision}\n')
-                file.write(f'Specificity: {specificity}\n')
+                file.write(f'\tAvg Test Time: {average_test_time} \n\n')
+                file.write(f'\tF1 Score: {f1_score}\n')
+                file.write(f'\tAccuracy: {accuracy}\n')
+                file.write(f'\tRecall: {recall}\n')
+                file.write(f'\tPrecision: {precision}\n')
+                file.write(f'\tSpecificity: {specificity}\n')
     except Exception as e:
         print(str(e), race, model, detector)
         exception_info = [str(e), race, model, detector]
         exception_list.append(exception_info)
     
 
-def _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder, results_file, test_time):
+def _write_test_result_to_file(template_image_index, test_image_index, is_difficult_pair, result, folder, results_file, test_time):
     results_file.write(
         f'{folder}\t\t'
         f'{template_image_index}\t\t'
         f'{test_image_index}\t\t'
-        f'{int(is_match)}\t\t'
+        f'{int(is_difficult_pair)}\t\t'
         f'{int(result["verified"])}\t\t')
 
-    if is_match and result['verified']:
+    if result['verified']:
         results_file.write("tp\t\t")
-    elif is_match and not result['verified']:
+    elif not result['verified']:
         results_file.write("fn\t\t")
-    elif not is_match and result['verified']:
-        results_file.write("fp\t\t")
-    elif not is_match and not result['verified']:
-        results_file.write("tn\t\t")
+    else:
+        results_file.write("error in _write_test_result_to_file()\t\t")
 
-    results_file.write(f'{test_time}\n')
+    results_file.write(f'{test_time:{1}.{2}}\n')
 
 
 def _print_results_to_console(races, metrics, model, detector):
     print("\nModel:", model)
     print("Detector", detector)
     for race in races:
-        print("\nRace:", race)
+        print("\n", race)
         race_metrics = metrics[race]
         for key, value in race_metrics.items():
-            print(key + ':', value)
-        
-        average_test_time = race_metrics['Total Test Time'] / race_metrics['Total Test Count']
-        print(f'Avg Test Time: {average_test_time}\n')
+            if key == 'Total Test Time':
+                print()
+            print('\t', key + ':', value)
+
+        test_time = race_metrics['Total Test Time']
+        test_count = race_metrics['Total Test Count']
+        average_test_time = test_time / test_count
+        print(f'\tAvg Test Time: {average_test_time}\n')
 
         try:
             f1_score, accuracy, recall, precision, specificity =        _calculate_scores(race_metrics)
 
-            print(f'F1 Score: {f1_score}')
-            print(f'Accuracy: {accuracy}')
-            print(f'Recall: {recall}')
-            print(f'Precision: {precision}')
-            print(f'Specificity: {specificity}\n')
+            print(f'\tF1 Score: {f1_score}')
+            print(f'\tAccuracy: {accuracy}')
+            print(f'\tRecall: {recall}')
+            print(f'\tPrecision: {precision}')
+            print(f'\tSpecificity: {specificity}\n')
         
         except Exception as e:
             print('_print_results_to_console()', str(e))
 
 
 
-def _get_template_image(race, folder):
-    return 'rfw/test/data/' + race + '/' + folder + '/' + folder + '_0001.jpg', 1
+def _get_template_image(race, folder, i):
+    image = '_000' + str(i) + '.jpg'
+    return 'rfw/test/data/' + race + '/' + folder + '/' + folder + image
 
 
-def _get_test_image(race, folder, i):
-    file = '_000' + str(i) + '.jpg'
-    return 'rfw/test/data/' + race + '/' + folder + '/' + folder + file, i
+def _get_test_image(race, folder, j):
+    file = '_000' + str(j) + '.jpg'
+    return 'rfw/test/data/' + race + '/' + folder + '/' + folder + file
 
 
 # returns true if template image and test image are the same person
-def _test_for_match(pair_list, template_image_index, test_image_index):
+def _is_difiicult_pair(pair_list, template_image_index, test_image_index):
     for pair in pair_list:
         if pair[0] == template_image_index and pair[1] == test_image_index:
             return True
@@ -142,28 +150,19 @@ def _test_for_match(pair_list, template_image_index, test_image_index):
     return False
 
 
-def _calculate_results(is_match, result, race_metrics, test_time):
-    if is_match:
-        race_metrics['Positive Test Count'] += 1
-    else:
-        race_metrics['Negative Test Count'] += 1
-
-    print("Is Match?:       ", is_match)
+def _calculate_test_result(is_difficult, result, race_metrics, test_time):
+    
+    print("Is Difficult Pair?:\t", is_difficult)
     print("Model Prediction:", result['verified'])
 
-    if is_match and result['verified']:
+    if result['verified']:
         print("Result: \t  True Positive")
         race_metrics["True Positive"] += 1
-    elif is_match and not result['verified']:
+    elif not result['verified']:
         print("Result: \t  False Negative")
         race_metrics["False Negative"] += 1
-    elif not is_match and result['verified']:
-        print("Result: \t  False Positive")
-        race_metrics["False Positive"] += 1
-    elif not is_match and not result['verified']:
-        print("Result: \t  True Negative")
-        race_metrics["True Negative"] += 1
 
+    race_metrics['Positive Test Count'] += 1
     race_metrics['Total Test Time'] += test_time
     race_metrics['Total Test Count'] += 1
 
@@ -185,44 +184,45 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics, f
     with open(f'tmp/{race}_results.txt', 'w') as results_file:
 
         # Write the header of results file
-        results_file.write('Folder\t\tTemplate\tTest\tMatch?\tPredict\tResult\tTest Time\n')
+        results_file.write('Folder\t\tTemplate\tTest\tDific?\tPredict\tResult\tTest Time\n')
 
         # iterate through each folder
         count = 1
         for folder, size in folder_size_list:
-            template_image, template_image_index = _get_template_image(race, folder)
 
             print("\n--------------- Testing Folder:", folder, "------------------")
             print("Race:\t", race)
 
-            # run tests
+            # iterate through each image in the folder
             for i in range(2, size + 1):
-                test_image, test_image_index = _get_test_image(race, folder, i)
-                print("\nTemplate:", template_image, "\tTest:", test_image)
-                pair_list = lookup_table[folder]
+                template_image_index = i
+                template_image = _get_template_image(race, folder, i)
 
                 # run tests
-                try:
-                    start_time = time.time()  # start the timer
+                for j in range(i+1, size + 1):
+                    test_image_index = j
+                    test_image = _get_test_image(race, folder, j)
+                    print(f"\nTemplate:{template_image}\tTest:{test_image}")
 
-                    # run model and store the result
-                    result = DeepFace.verify(template_image, test_image, model, detector)
+                    pair_list = lookup_table[folder]
 
-                    end_time = time.time()
-                    test_time = end_time - start_time
+                    try:
+                        # run model
+                        start_time = time.time()  # start the timer
+                        result = DeepFace.verify(template_image, test_image, model, detector)
+                        end_time = time.time()
+                        test_time = end_time - start_time
+                        tf.keras.backend.clear_session()
 
-                    tf.keras.backend.clear_session()
+                        # is the template and test the same person?
+                        is_dificult_pair = _is_difiicult_pair(pair_list, template_image_index, test_image_index)
+                        _calculate_test_result(is_dificult_pair, result, metrics_race, test_time)
+                        _write_test_result_to_file(template_image_index, test_image_index, is_dificult_pair, result, folder, results_file,  test_time)
 
-                    # is the template and test the same person?
-                    is_match = _test_for_match(pair_list, template_image_index, test_image_index)
-
-                    _calculate_results(is_match, result, metrics_race, test_time)
-
-                    _write_test_result_to_file(template_image_index, test_image_index, is_match, result, folder, results_file, test_time)
-                except Exception as e:
-                    print(str(e))
-                    exception_info = [str(e), race, count, folder, template_image, test_image]
-                    exception_list.append(exception_info)
+                    except Exception as e:
+                        print(str(e))
+                        exception_info = [str(e), race, count, folder, template_image,  test_image]
+                        exception_list.append(exception_info)
 
             count += 1
             if count > folder_test_limit:
@@ -273,6 +273,7 @@ def _init_metrics(race, metrics):
 
 def main():
     races = ['African', 'Asian', 'Caucasian', 'Indian']
+    # races = ['African']
     model = 'Facenet512'
     detector = 'mtcnn'
     metrics = {}
