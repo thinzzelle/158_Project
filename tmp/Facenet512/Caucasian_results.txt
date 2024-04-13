@@ -1,4 +1,0 @@
-Folder		Template	Test	Dific?	Predict	Result	Test Time
-m.0cqh0q		2		3		0		1		tp		1.2
-m.0cqh0q		2		4		0		0		fn		1.2
-m.0cqh0q		3		4		0		0		fn		1.2

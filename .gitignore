@@ -1,6 +1,7 @@
 img1.jpg
 img2.jpg
 .idea
+
 tmp/African_results.txt
 tmp/Asian_results.txt
 tmp/Caucasian_results.txt
@@ -8,6 +9,16 @@ tmp/Indian_results.txt
 tmp/Race_results.txt
 tmp/exceptions.txt
 
+tmp/FaceNet/*
+tmp/VGG-Face/* 
+tmp/Facenet512/* 
+tmp/OpenFace/* 
+tmp/DeepFace/* 
+tmp/DeepID/* 
+tmp/ArcFace/* 
+tmp/Dlib/* 
+tmp/SFace/*
+tmp/GhostFaceNet/*
 
 rfw/
 fair_face/
