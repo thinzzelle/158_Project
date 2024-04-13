@@ -7,8 +7,8 @@ exception_list = []
 exception_write_to_file_count = 0
 
 
-def _write_exceptions_to_file():
-    filename = 'tmp/exceptions.txt'
+def _write_exceptions_to_file(model):
+    filename = 'tmp/' + model + '/exceptions.txt'
     with open(filename, 'w') as file:
         for exception in exception_list:
             file.write(str(exception) + '\n')
@@ -288,7 +288,7 @@ def main():
 
         _print_results_to_console(races, metrics, model, detector)
         _write_final_results_to_file(races, metrics, model, detector)
-        _write_exceptions_to_file()
+        _write_exceptions_to_file(model)
 
 
 if __name__ == "__main__":
