@@ -20,6 +20,24 @@ tmp/Dlib/*
 tmp/SFace/*
 tmp/GhostFaceNet/*
 
+tmp2/African_results.txt
+tmp2/Asian_results.txt
+tmp2/Caucasian_results.txt
+tmp2/Indian_results.txt
+tmp2/Race_results.txt
+tmp2/exceptions.txt
+
+tmp2/FaceNet/*
+tmp2/VGG-Face/* 
+tmp2/Facenet512/* 
+tmp2/OpenFace/* 
+tmp2/DeepFace/* 
+tmp2/DeepID/* 
+tmp2/ArcFace/* 
+tmp2/Dlib/* 
+tmp2/SFace/*
+tmp2/GhostFaceNet/*
+
 rfw/
 fair_face/
 deepface_env/
