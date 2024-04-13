@@ -1,0 +1,82 @@
+Model: Facenet512
+Detector: mtcnn
+
+African
+	True Positive: 0
+	True Negative: 0
+	False Positive: 0
+	False Negative: 1
+	Positive Test Count: 1
+	Negative Test Count: 0
+	Total Test Count: 1
+
+	Total Test Time: 3.011230230331421
+	Start Time: 2024-04-12 20:58:39.223570
+	End Time: 2024-04-12 20:58:42.245073
+	Avg Test Time: 3.011230230331421 
+
+	F1 Score: N/A
+	Accuracy: 0.0
+	Recall: 0.0
+	Precision: N/A
+	Specificity: N/A
+
+Asian
+	True Positive: 2
+	True Negative: 0
+	False Positive: 0
+	False Negative: 4
+	Positive Test Count: 6
+	Negative Test Count: 0
+	Total Test Count: 6
+
+	Total Test Time: 7.457908391952515
+	Start Time: 2024-04-12 20:58:42.252071
+	End Time: 2024-04-12 20:58:49.755898
+	Avg Test Time: 1.2429847319920857 
+
+	F1 Score: 0.5
+	Accuracy: 0.3333333333333333
+	Recall: 0.3333333333333333
+	Precision: 1.0
+	Specificity: N/A
+
+Caucasian
+	True Positive: 1
+	True Negative: 0
+	False Positive: 0
+	False Negative: 2
+	Positive Test Count: 3
+	Negative Test Count: 0
+	Total Test Count: 3
+
+	Total Test Time: 3.6789793968200684
+	Start Time: 2024-04-12 20:58:49.762065
+	End Time: 2024-04-12 20:58:53.461606
+	Avg Test Time: 1.2263264656066895 
+
+	F1 Score: 0.5
+	Accuracy: 0.3333333333333333
+	Recall: 0.3333333333333333
+	Precision: 1.0
+	Specificity: N/A
+
+Indian
+	True Positive: 2
+	True Negative: 0
+	False Positive: 0
+	False Negative: 4
+	Positive Test Count: 6
+	Negative Test Count: 0
+	Total Test Count: 6
+
+	Total Test Time: 7.381814241409302
+	Start Time: 2024-04-12 20:58:53.466704
+	End Time: 2024-04-12 20:59:00.894784
+	Avg Test Time: 1.230302373568217 
+
+	F1 Score: 0.5
+	Accuracy: 0.3333333333333333
+	Recall: 0.3333333333333333
+	Precision: 1.0
+	Specificity: N/A

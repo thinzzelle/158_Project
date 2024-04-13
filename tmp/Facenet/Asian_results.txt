@@ -1,0 +1,7 @@
+Folder		Template	Test	Dific?	Predict	Result	Test Time
+m.0281bfh		2		3		0		1		tp		1.3
+m.0281bfh		2		4		0		0		fn		1.3
+m.0281bfh		2		5		0		0		fn		1.3
+m.0281bfh		3		4		0		1		tp		1.2
+m.0281bfh		3		5		1		1		tp		1.2
+m.0281bfh		4		5		0		1		tp		1.2

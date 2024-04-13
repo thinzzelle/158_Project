@@ -51,7 +51,7 @@ def _calculate_scores(race_metrics):
     return f1_score, accuracy, recall, precision, specificity
 
 def _write_final_results_to_file(races, metrics, model, detector):
-    filename = 'tmp/Race_results.txt'
+    filename = 'tmp/' + model + '/Race_results.txt'
 
     try:
         with open(filename, 'w') as file:
@@ -181,7 +181,7 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics, f
     metrics_race = metrics[race]
 
     # Open results file for writing
-    with open(f'tmp/{race}_results.txt', 'w') as results_file:
+    with open(f'tmp/{model}/{race}_results.txt', 'w') as results_file:
 
         # Write the header of results file
         results_file.write('Folder\t\tTemplate\tTest\tDific?\tPredict\tResult\tTest Time\n')
@@ -274,21 +274,48 @@ def _init_metrics(race, metrics):
 def main():
     races = ['African', 'Asian', 'Caucasian', 'Indian']
     # races = ['African']
-    model = 'Facenet512'
+    model_list = ['Facenet512', 'Facenet']
     detector = 'mtcnn'
     metrics = {}
-    folder_test_limit = 3000
+    folder_test_limit = 1
+    
+    for model in model_list:
+        for race in races:
+            folder_size_list, lookup_table = _init_values(race)
+            _init_metrics(race, metrics)
 
-    for race in races:
-        folder_size_list, lookup_table = _init_values(race)
-        _init_metrics(race, metrics)
+            _run_tests(race, model, detector, folder_size_list, lookup_table, metrics, folder_test_limit)
 
-        _run_tests(race, model, detector, folder_size_list, lookup_table, metrics, folder_test_limit)
-
-    _print_results_to_console(races, metrics, model, detector)
-    _write_final_results_to_file(races, metrics, model, detector)
-    _write_exceptions_to_file()
+        _print_results_to_console(races, metrics, model, detector)
+        _write_final_results_to_file(races, metrics, model, detector)
+        _write_exceptions_to_file()
 
 
 if __name__ == "__main__":
     main()
+
+# models = [
+#   "VGG-Face", 
+#   "Facenet", 
+#   "Facenet512", 
+#   "OpenFace", 
+#   "DeepFace", 
+#   "DeepID", 
+#   "ArcFace", 
+#   "Dlib", 
+#   "SFace",
+#   "GhostFaceNet",
+# ]
+
+# backends = [
+#   'opencv',
+#   'ssd',
+#   'dlib',
+#   'mtcnn',
+#   'retinaface',
+#   'mediapipe',
+#   'yolov8',
+#   'yunet',
+#   'fastmtcnn',
+# ]
+# detector_backend = backends[1]
