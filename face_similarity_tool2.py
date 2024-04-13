@@ -85,14 +85,12 @@ def _write_test_result_to_file(template_image_index, test_image_index, is_simila
         f'{int(is_similar)}\t\t'
         f'{int(result["verified"])}\t\t')
 
-    if is_similar and result['verified']:
+    if result['verified']:
         results_file.write("tp\t\t")
-    elif is_similar and not result['verified']:
+    elif not result['verified']:
         results_file.write("fn\t\t")
-    elif not is_similar and result['verified']:
-        results_file.write("fp\t\t")
-    elif not is_similar and not result['verified']:
-        results_file.write("tn\t\t")
+    else:
+        results_file.write("error in _write_test_result_to_file()\t\t")
 
     results_file.write(f'{test_time}\n')
 
