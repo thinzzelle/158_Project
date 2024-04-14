@@ -1,0 +1,84 @@
+Tests the negative pair list provided by RFW dataset
+
+Model: ArcFace
+Detector: mtcnn
+
+African
+	True Positive: 0
+	True Negative: 2096
+	False Positive: 898
+	False Negative: 0
+	Positive Test Count: 0
+	Negative Test Count: 2994
+	Total Test Count: 2994
+
+	Total Test Time: 3159.09703707695
+	Start Time: 2024-04-13 20:32:38.643724
+	End Time: 
+	Avg Test Time: 1.0551426309542251 
+
+	F1 Score: N/A
+	Accuracy: 0.700066800267201
+	Recall: N/A
+	Precision: 0.0
+	Specificity: 0.700066800267201
+
+Asian
+	True Positive: 0
+	True Negative: 2146
+	False Positive: 842
+	False Negative: 0
+	Positive Test Count: 0
+	Negative Test Count: 2988
+	Total Test Count: 2988
+
+	Total Test Time: 3078.5296964645386
+	Start Time: 2024-04-13 21:25:30.891931
+	End Time: 
+	Avg Test Time: 1.0302977565142364 
+
+	F1 Score: N/A
+	Accuracy: 0.7182061579651942
+	Recall: N/A
+	Precision: 0.0
+	Specificity: 0.7182061579651942
+
+Caucasian
+	True Positive: 0
+	True Negative: 2724
+	False Positive: 263
+	False Negative: 0
+	Positive Test Count: 0
+	Negative Test Count: 2987
+	Total Test Count: 2987
+
+	Total Test Time: 3167.5182778835297
+	Start Time: 2024-04-13 22:17:06.133069
+	End Time: 
+	Avg Test Time: 1.060434642746411 
+
+	F1 Score: N/A
+	Accuracy: 0.9119517910947439
+	Recall: N/A
+	Precision: 0.0
+	Specificity: 0.9119517910947439
+
+Indian
+	True Positive: 0
+	True Negative: 2369
+	False Positive: 617
+	False Negative: 0
+	Positive Test Count: 0
+	Negative Test Count: 2986
+	Total Test Count: 2986
+
+	Total Test Time: 3193.7060680389404
+	Start Time: 2024-04-13 23:10:13.046729
+	End Time: 
+	Avg Test Time: 1.0695599692025923 
+
+	F1 Score: N/A
+	Accuracy: 0.7933690555927663
+	Recall: N/A
+	Precision: 0.0
+	Specificity: 0.7933690555927663
