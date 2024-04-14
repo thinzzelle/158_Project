@@ -173,7 +173,7 @@ def _calculate_test_result(is_difficult, result, race_metrics, test_time):
 def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics, folder_test_limit):
     print("\n|||||||||| Race:", race, "||||||||||||||")
 
-    global exeption_list
+    global exception_list
 
     total_test_time = 0  # Variable to store the total test time
     total_tests = 0  # Variable to store the total number of tests
@@ -274,7 +274,7 @@ def _init_metrics(race, metrics):
 def main():
     races = ['African', 'Asian', 'Caucasian', 'Indian']
     # races = ['African']
-    model_list = ['Facenet512', 'Facenet']
+    model_list = ['Facenet']
     detector = 'mtcnn'
     metrics = {}
     folder_test_limit = 3000

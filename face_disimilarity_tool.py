@@ -2,6 +2,8 @@ from deepface import DeepFace
 import time
 import tensorflow as tf
 from datetime import datetime
+import multiprocessing
+from functools import partial
 
 exception_list = []
 exception_write_to_file_count = 0
@@ -83,18 +85,22 @@ def _write_final_results_to_file(races, metrics, model, detector):
     
 
 def _write_test_result_to_file(template_folder, template_image_index, test_folder, test_image_index, result, results_file, test_time):
+    if len (template_folder) < 8:
+        template_folder += ' '
+    if len (test_folder) < 8:
+        test_folder += ' '
+
     results_file.write(
         f'{template_folder}\t\t'
         f'{template_image_index}\t\t'
         f'{test_folder}\t\t'
-        f'{template_image_index}\t\t'
         f'{test_image_index}\t\t'
         f'{int(result["verified"])}\t\t')
 
     if result['verified']:
-        results_file.write("tp\t\t")
+        results_file.write("fp\t\t")
     elif not result['verified']:
-        results_file.write("fn\t\t")
+        results_file.write("tn\t\t")
     else:
         results_file.write("error in _write_test_result_to_file()\t\t")
 
@@ -146,11 +152,11 @@ def _calculate_test_result(result, race_metrics, test_time):
     print("Model Prediction:", result['verified'])
 
     if result['verified']:
-        print("Result: \t  True Positive")
-        race_metrics["True Positive"] += 1
+        print("Result: \t  False Positive")
+        race_metrics["False Positive"] += 1
     elif not result['verified']:
-        print("Result: \t  False Negative")
-        race_metrics["False Negative"] += 1
+        print("Result: \t  True Negative")
+        race_metrics["True Negative"] += 1
 
     race_metrics['Positive Test Count'] += 1
     race_metrics['Total Test Time'] += test_time
@@ -163,24 +169,25 @@ def _calculate_test_result(result, race_metrics, test_time):
 def _run_tests(race, model, detector, folder_size_list, pair_list, metrics, test_limit):
     print("\n|||||||||| Race:", race, "||||||||||||||")
 
-    global exeption_list
+    global exception_list
     metrics_race = metrics[race]
 
     # Open results file for writing
     with open(f'tmp2/{model}/{race}_results.txt', 'w') as results_file:
 
         # Write the header of results file
-        results_file.write('Folder\t\tTemplate\tTest\tPredict\tResult\tTest Time\n')
+        results_file.write('Template\t\t\t\tTest\t\t\t\t\tPredict\tResult\tTest Time\n')
 
         # iterate through each image in the folder
         count = 0
         for pair in pair_list:
+          
             template_folder = pair[0]
-            template_index = pair[1]
+            template_index = int(pair[1])
             template_image = _get_template_image(race, template_folder, template_index)
 
             test_folder = pair[2]
-            test_index = pair[3]
+            test_index = int(pair[3])
             test_image = _get_test_image(race, test_folder, test_index)
             
             print(f"\nTemplate:{template_image}\tTest:{test_image}")
@@ -205,7 +212,6 @@ def _run_tests(race, model, detector, folder_size_list, pair_list, metrics, test
                 metrics_race['End Time'] = datetime.now()
                 break
 
-
 def _init_values(race):
     pairs_file_path = 'rfw/test/txts/' + race + '/' + race + '_pairs.txt'
     people_file_path = 'rfw/test/txts/' + race + '/' + race + '_people.txt'
@@ -219,11 +225,13 @@ def _init_values(race):
     pair_list = []
     with open(pairs_file_path, 'r') as f:
         for line in f:
-            data = line.strip().split('\t')
+            data = line.split('\t')
+            data[-1] = data[-1].strip('\n')
+            data_tuple = tuple(data)
 
             # only accept pairs from different files
             if len(data) == 4:
-                pair_list.append(data[0], int(data[1], data[2]), int(data[3]))
+                pair_list.append(data_tuple)
 
     return folder_size, pair_list
 
@@ -246,10 +254,10 @@ def _init_metrics(race, metrics):
 def main():
     races = ['African', 'Asian', 'Caucasian', 'Indian']
     # races = ['African']
-    model_list = ['Facenet512', 'Facenet']
+    model_list = ['ArcFace']
     detector = 'mtcnn'
     metrics = {}
-    test_limit = 3000
+    test_limit = 3500
     
     for model in model_list:
         for race in races:
@@ -273,7 +281,7 @@ if __name__ == "__main__":
 #   "OpenFace", 
 #   "DeepFace", 
 #   "DeepID", 
-#   "ArcFace", 
+#   "ArcFace", _
 #   "Dlib", 
 #   "SFace",
 #   "GhostFaceNet",
