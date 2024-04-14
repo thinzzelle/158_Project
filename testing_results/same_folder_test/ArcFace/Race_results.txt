@@ -1,0 +1,86 @@
+Complete same_folder test on rfw dataset. Each test is comparing two photos of the same individual.
+The test compares every possible combination of images in the same folder.
+ 
+For 3 images in a folder the following 3 tests would be performed:
+img1 - img2, img1 - img3, img 2-3
+For 4 images in a folder, a total of 6 combinations are tested.
+
+Model: ArcFace
+Detector: mtcnn
+
+African
+	True Positive:	10761
+	True Negative:	0
+	Fale  Positive:	0
+	False Negative:	3274
+	Positive Test Count:	14035
+	Negative Test Count:	0
+
+	Total Test Time:
+	Start Time:
+	End Time:
+	Avg Test Time:
+
+	f1 score:	0.8679625746088078
+	accuracy:	0.7667260420377627
+	recall:		0.7667260420377627
+	precision:	1.0
+	specificity:	N/A
+
+Asian
+	True Positive:	12554
+	True Negative:	0
+	Fale  Positive:	0
+	False Negative:	3047
+	Positive Test Count:	15601
+	Negative Test Count:	0
+
+	Total Test Time:
+	Start Time:
+	End Time:
+	Avg Test Time:
+
+	f1 score:	0.8917776593855443
+	accuracy:	0.8046920069226332
+	recall:		0.8046920069226332
+	precision:	1.0
+	specificity:	N/A
+
+Caucasian
+	True Positive:	10287
+	True Negative:	0
+	Fale  Positive:	0
+	False Negative:	3274
+	Positive Test Count:	13561
+	Negative Test Count:	0
+
+	Total Test Time:
+	Start Time:
+	End Time:
+	Avg Test Time:
+
+	f1 score:	0.8627138544112715
+	accuracy:	0.7585723766683873
+	recall:		0.7585723766683873
+	precision:	1.0
+	specificity:	N/A
+
+Indian
+	True Positive:	10922
+	True Negative:	0
+	Fale  Positive:	0
+	False Negative:	2880
+	Positive Test Count:	13802
+	Negative Test Count:	0
+
+	Total Test Time:
+	Start Time:
+	End Time:
+	Avg Test Time:
+
+	f1 score:	0.883513994499272
+	accuracy:	0.7913345891899725
+	recall:		0.7913345891899725
+	precision:	1.0
+	specificity:	N/A
+

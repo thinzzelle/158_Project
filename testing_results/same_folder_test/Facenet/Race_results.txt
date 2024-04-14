@@ -1,0 +1,76 @@
+African
+	True Positive:	7875
+	True Negative:	0
+	Fale  Positive:	0
+	False Negative:	6160
+	Positive Test Count:	14035
+	Negative Test Count:	0
+
+	Total Test Time:
+	Start Time:
+	End Time:
+	Avg Test Time:
+
+	f1 score:	0.7188498402555911
+	accuracy:	0.5610972568578554
+	recall:		0.5610972568578554
+	precision:	1.0
+	specificity:	N/A
+
+Asian
+	True Positive:	10348
+	True Negative:	0
+	Fale  Positive:	0
+	False Negative:	5253
+	Positive Test Count:	15601
+	Negative Test Count:	0
+
+	Total Test Time:
+	Start Time:
+	End Time:
+	Avg Test Time:
+
+	f1 score:	0.7975644533508036
+	accuracy:	0.663290814691366
+	recall:		0.663290814691366
+	precision:	1.0
+	specificity:	N/A
+
+Caucasian
+	True Positive:	6253
+	True Negative:	0
+	Fale  Positive:	0
+	False Negative:	7308
+	Positive Test Count:	13561
+	Negative Test Count:	0
+
+	Total Test Time:
+	Start Time:
+	End Time:
+	Avg Test Time:
+
+	f1 score:	0.6311698798829111
+	accuracy:	0.4611016886660276
+	recall:		0.4611016886660276
+	precision:	1.0
+	specificity:	N/A
+
+Indian
+	True Positive:	7474
+	True Negative:	0
+	Fale  Positive:	0
+	False Negative:	6328
+	Positive Test Count:	13802
+	Negative Test Count:	0
+
+	Total Test Time:
+	Start Time:
+	End Time:
+	Avg Test Time:
+
+	f1 score:	0.7025756721188194
+	accuracy:	0.5415157223590784
+	recall:		0.5415157223590784
+	precision:	1.0
+	specificity:	N/A
+

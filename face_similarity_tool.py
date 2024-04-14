@@ -274,10 +274,10 @@ def _init_metrics(race, metrics):
 def main():
     races = ['African', 'Asian', 'Caucasian', 'Indian']
     # races = ['African']
-    model_list = ['Facenet512', 'Facenet']
+    model_list = ['Facenet']
     detector = 'mtcnn'
     metrics = {}
-    folder_test_limit = 1
+    folder_test_limit = 3000
     
     for model in model_list:
         for race in races:

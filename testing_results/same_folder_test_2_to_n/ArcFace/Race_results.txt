@@ -1,0 +1,82 @@
+Model: ArcFace
+Detector: mtcnn
+
+African
+	True Positive: 5080
+	True Negative: 0
+	False Positive: 0
+	False Negative: 1548
+	Positive Test Count: 6628
+	Negative Test Count: 0
+	Total Test Count: 6628
+
+	Total Test Time: 8351.43912601471
+	Start Time: 2024-04-12 21:16:13.773604
+	End Time: 
+	Avg Test Time: 1.2600240081494734 
+
+	F1 Score: 0.867782712675094
+	Accuracy: 0.7664453832226916
+	Recall: 0.7664453832226916
+	Precision: 1.0
+	Specificity: N/A
+
+Asian
+	True Positive: 6731
+	True Negative: 0
+	False Positive: 0
+	False Negative: 1713
+	Positive Test Count: 8444
+	Negative Test Count: 0
+	Total Test Count: 8444
+
+	Total Test Time: 11235.390231847763
+	Start Time: 2024-04-12 23:36:24.440801
+	End Time: 
+	Avg Test Time: 1.3305767683382004 
+
+	F1 Score: 0.8871169686985173
+	Accuracy: 0.797134059687352
+	Recall: 0.797134059687352
+	Precision: 1.0
+	Specificity: N/A
+
+Caucasian
+	True Positive: 4876
+	True Negative: 0
+	False Positive: 0
+	False Negative: 1485
+	Positive Test Count: 6361
+	Negative Test Count: 0
+	Total Test Count: 6361
+
+	Total Test Time: 9502.256883859634
+	Start Time: 2024-04-13 02:45:22.032205
+	End Time: 
+	Avg Test Time: 1.4938306687407066 
+
+	F1 Score: 0.8678472902020112
+	Accuracy: 0.7665461405439397
+	Recall: 0.7665461405439397
+	Precision: 1.0
+	Specificity: N/A
+
+Indian
+	True Positive: 5116
+	True Negative: 0
+	False Positive: 0
+	False Negative: 1399
+	Positive Test Count: 6515
+	Negative Test Count: 0
+	Total Test Count: 6515
+
+	Total Test Time: 11098.92869091034
+	Start Time: 2024-04-13 05:25:09.389777
+	End Time: 
+	Avg Test Time: 1.703596115258686 
+
+	F1 Score: 0.8797179950133265
+	Accuracy: 0.7852647735993861
+	Recall: 0.7852647735993861
+	Precision: 1.0
+	Specificity: N/A
