@@ -158,7 +158,7 @@ def _calculate_test_result(result, race_metrics, test_time):
         print("Result: \t  True Negative")
         race_metrics["True Negative"] += 1
 
-    race_metrics['Positive Test Count'] += 1
+    race_metrics['Negative Test Count'] += 1
     race_metrics['Total Test Time'] += test_time
     race_metrics['Total Test Count'] += 1
 
