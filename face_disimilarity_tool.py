@@ -254,7 +254,7 @@ def _init_metrics(race, metrics):
 def main():
     races = ['African', 'Asian', 'Caucasian', 'Indian']
     # races = ['African']
-    model_list = ['ArcFace']
+    model_list = ['DeepFace']
     detector = 'mtcnn'
     metrics = {}
     test_limit = 3500

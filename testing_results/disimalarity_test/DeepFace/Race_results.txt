@@ -1,0 +1,82 @@
+Model: DeepFace
+Detector: mtcnn
+
+African
+	True Positive: 0
+	True Negative: 2835
+	False Positive: 159
+	False Negative: 0
+	Positive Test Count: 0
+	Negative Test Count: 2994
+	Total Test Count: 2994
+
+	Total Test Time: 9982.292027711868
+	Start Time: 2024-04-14 10:58:59.652048
+	End Time: 
+	Avg Test Time: 3.3340988736512585 
+
+	F1 Score: N/A
+	Accuracy: 0.9468937875751503
+	Recall: N/A
+	Precision: 0.0
+	Specificity: 0.9468937875751503
+
+Asian
+	True Positive: 0
+	True Negative: 2800
+	False Positive: 188
+	False Negative: 0
+	Positive Test Count: 0
+	Negative Test Count: 2988
+	Total Test Count: 2988
+
+	Total Test Time: 7785.187419891357
+	Start Time: 2024-04-14 13:46:12.006291
+	End Time: 
+	Avg Test Time: 2.605484410940883 
+
+	F1 Score: N/A
+	Accuracy: 0.9370816599732262
+	Recall: N/A
+	Precision: 0.0
+	Specificity: 0.9370816599732262
+
+Caucasian
+	True Positive: 0
+	True Negative: 2507
+	False Positive: 480
+	False Negative: 0
+	Positive Test Count: 0
+	Negative Test Count: 2987
+	Total Test Count: 2987
+
+	Total Test Time: 7854.26505279541
+	Start Time: 2024-04-14 15:56:50.709581
+	End Time: 
+	Avg Test Time: 2.6294827762957516 
+
+	F1 Score: N/A
+	Accuracy: 0.8393036491463006
+	Recall: N/A
+	Precision: 0.0
+	Specificity: 0.8393036491463006
+
+Indian
+	True Positive: 0
+	True Negative: 2537
+	False Positive: 449
+	False Negative: 0
+	Positive Test Count: 0
+	Negative Test Count: 2986
+	Total Test Count: 2986
+
+	Total Test Time: 11747.971255779266
+	Start Time: 2024-04-14 18:08:42.979098
+	End Time: 
+	Avg Test Time: 3.934350721962246 
+
+	F1 Score: N/A
+	Accuracy: 0.8496316141995981
+	Recall: N/A
+	Precision: 0.0
+	Specificity: 0.8496316141995981
