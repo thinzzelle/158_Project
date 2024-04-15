@@ -56,7 +56,7 @@ def process_structure_file(file1, file2, output_file):
 if __name__ == "__main__":
 
     race_list = ["African", "Asian", "Caucasian", "Indian"]
-    model = "Facenet"
+    model = "DeepFace"
     output_path = "C:/Users/jay/Desktop/combined/"+ model + "/"
 
     for race in race_list:

@@ -31,7 +31,7 @@
 
 # if __name__ == "__main__":
 #     file_list = ["African_results.txt", "Asian_results.txt", "Caucasian_results.txt", "Indian_results.txt"]
-#     model = "Facenet"
+#     model = "DeepFace"
 
 #     for file in file_list:
 #         input_path = "C:/Users/jay/Desktop/2_original/" + model + "/"
@@ -77,7 +77,7 @@ def process_structure_file(input_file, output_file):
 
 if __name__ == "__main__":
     file_list = ["African_results.txt", "Asian_results.txt", "Caucasian_results.txt", "Indian_results.txt"]
-    model = "Facenet"
+    model = "DeepFace"
 
     for file in file_list:
         input_path = "C:/Users/jay/Desktop/1_original/" + model + "/"

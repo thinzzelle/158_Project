@@ -78,7 +78,7 @@ def process_structure_file(race, input_file, output_file):
 if __name__ == "__main__":
 
     race_list = ["African", "Asian", "Caucasian", "Indian"]
-    model = "Facenet"
+    model = "DeepFace"
     input_path = "C:/Users/jay/Desktop/combined/" + model + "/"
     
 
