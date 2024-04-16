@@ -152,7 +152,6 @@ def _is_difiicult_pair(pair_list, template_image_index, test_image_index):
 
 def _calculate_test_result(is_difficult, result, race_metrics, test_time):
     
-    print("Is Difficult Pair?:\t", is_difficult)
     print("Model Prediction:", result['verified'])
 
     if result['verified']:
@@ -170,7 +169,7 @@ def _calculate_test_result(is_difficult, result, race_metrics, test_time):
     print("Total Test Count:\t", race_metrics['Total Test Count'])
 
 
-def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics, folder_test_limit, euclidean_distance):
+def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics, folder_test_limit):
     print("\n|||||||||| Race:", race, "||||||||||||||")
 
     global exception_list
@@ -194,7 +193,8 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics, f
             print("Race:\t", race)
 
             # iterate through each image in the folder
-            for i in range(2, size + 1):
+            # for i in range(1, size + 1):
+            for i in range(1, 2):
                 template_image_index = i
                 template_image = _get_template_image(race, folder, i)
 
@@ -209,7 +209,8 @@ def _run_tests(race, model, detector, folder_size_list, lookup_table, metrics, f
                     try:
                         # run model
                         start_time = time.time()  # start the timer
-                        result = DeepFace.verify(template_image, test_image, model, detector, euclidean_distance)
+                        result = DeepFace.verify(template_image, test_image, model, detector)
+                        # print(result)
                         end_time = time.time()
                         test_time = end_time - start_time
                         tf.keras.backend.clear_session()
@@ -272,11 +273,10 @@ def _init_metrics(race, metrics):
 
 
 def main():
-    races = ['African', 'Asian', 'Caucasian', 'Indian']
+    races = ['Caucasian', 'Indian']
     # races = ['African']
-    model_list = ['Facenet']
+    model_list = ['DeepFace']
     detector = 'mtcnn'
-    euclidean_distance = 'euclidean_l2'
     metrics = {}
     folder_test_limit = 3000
     
@@ -285,7 +285,7 @@ def main():
             folder_size_list, lookup_table = _init_values(race)
             _init_metrics(race, metrics)
 
-            _run_tests(race, model, detector, folder_size_list, lookup_table, metrics, folder_test_limit, euclidean_distance)
+            _run_tests(race, model, detector, folder_size_list, lookup_table, metrics, folder_test_limit)
 
         _print_results_to_console(races, metrics, model, detector)
         _write_final_results_to_file(races, metrics, model, detector)

@@ -166,7 +166,7 @@ def _calculate_test_result(result, race_metrics, test_time):
     print("Total Test Count:\t", race_metrics['Total Test Count'])
 
 
-def _run_tests(race, model, detector, folder_size_list, pair_list, metrics, test_limit):
+def _run_tests(race, model, detector, folder_size_list, pair_list, metrics, test_limit, euclidean_distance):
     print("\n|||||||||| Race:", race, "||||||||||||||")
 
     global exception_list
@@ -195,7 +195,7 @@ def _run_tests(race, model, detector, folder_size_list, pair_list, metrics, test
             try:
                 # run model
                 start_time = time.time()  # start the timer
-                result = DeepFace.verify(template_image, test_image, model, detector)
+                result = DeepFace.verify(template_image, test_image, model, detector, euclidean_distance)
                 end_time = time.time()
                 test_time = end_time - start_time
                 tf.keras.backend.clear_session()
@@ -255,16 +255,17 @@ def main():
     races = ['African', 'Asian', 'Caucasian', 'Indian']
     # races = ['African']
     model_list = ['DeepFace']
+    euclidean_distance = 'euclidean'
     detector = 'mtcnn'
     metrics = {}
-    test_limit = 3500
+    test_limit = 10
     
     for model in model_list:
         for race in races:
             folder_size_list, pair_list = _init_values(race)
             _init_metrics(race, metrics)
 
-            _run_tests(race, model, detector, folder_size_list, pair_list, metrics, test_limit)
+            _run_tests(race, model, detector, folder_size_list, pair_list, metrics, test_limit, euclidean_distance)
 
         _print_results_to_console(races, metrics, model, detector)
         _write_final_results_to_file(races, metrics, model, detector)

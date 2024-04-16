@@ -37,11 +37,11 @@ Asian
 	specificity:	N/A
 
 Caucasian
-	True Positive:	2244
+	True Positive:	3207
 	True Negative:	0
 	Fale  Positive:	0
-	False Negative:	6400
-	Positive Test Count:	8644
+	False Negative:	9214
+	Positive Test Count:	12421
 	Negative Test Count:	0
 
 	Total Test Time:
@@ -49,18 +49,18 @@ Caucasian
 	End Time:
 	Avg Test Time:
 
-	f1 score:	0.4121969140337987
-	accuracy:	0.25960203609440075
-	recall:		0.25960203609440075
+	f1 score:	0.4104171998976196
+	accuracy:	0.25819177199903387
+	recall:		0.25819177199903387
 	precision:	1.0
 	specificity:	N/A
 
 Indian
-	True Positive:	1674
+	True Positive:	3553
 	True Negative:	0
 	Fale  Positive:	0
-	False Negative:	4841
-	Positive Test Count:	6515
+	False Negative:	10248
+	Positive Test Count:	13801
 	Negative Test Count:	0
 
 	Total Test Time:
@@ -68,9 +68,9 @@ Indian
 	End Time:
 	Avg Test Time:
 
-	f1 score:	0.408841128342899
-	accuracy:	0.25694551036070606
-	recall:		0.25694551036070606
+	f1 score:	0.4094733202719834
+	accuracy:	0.2574451126729947
+	recall:		0.2574451126729947
 	precision:	1.0
 	specificity:	N/A
 
