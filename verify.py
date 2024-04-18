@@ -41,12 +41,12 @@ def get_image_from_pair(race, pair):
         template_folder = pair[0]
         template_index = int(pair[1])
         template_image = '_000' + str(template_index) + '.jpg'
-        template_image_path = 'rfw/test/' + race + '/' + template_folder + '/' + template_folder + template_image
+        template_image_path = 'rfw/test/data/' + race + '/' + template_folder + '/' + template_folder + template_image
 
         test_folder = pair[0]
         test_index = int(pair[2])
         test_image = '_000' + str(test_index) + '.jpg'
-        test_image_path = 'rfw/test/'+ race + '/' + test_folder + '/' + test_folder + test_image
+        test_image_path = 'rfw/test/data/'+ race + '/' + test_folder + '/' + test_folder + test_image
 
     else:
         raise Exception("Error in get_pair()")
@@ -67,6 +67,7 @@ def _run_tests(race, model, detector, distance_metric, pair_list, test_limit):
         # iterate through each image in the folder
         count = 0
         for pair in pair_list:
+            print(f"pair: {pair}")
             template_folder, template_index, template_image_path, test_folder, test_index, test_image_path = get_image_from_pair(race, pair)
             
             print(f"\n{template_image_path}\n{test_image_path}")
@@ -75,7 +76,7 @@ def _run_tests(race, model, detector, distance_metric, pair_list, test_limit):
                 # run model
                 result = DeepFace.verify(template_image_path, test_image_path, model, detector, distance_metric)
 
-                print(f"Test Time: {result['time']}")
+                print(f"Model: {model}\nTest Time: {result['time']}\nCount: {count}")
                 tf.keras.backend.clear_session()
 
                 _write_test_result_to_file(template_folder, template_index, test_folder, test_index, result, results_file)
@@ -97,10 +98,7 @@ def _init_values(race):
             data = line.split('\t')
             data[-1] = data[-1].strip('\n')
             data_tuple = tuple(data)
-
-            # only accept pairs from different files
-            if len(data) == 4:
-                pair_list.append(data_tuple)
+            pair_list.append(data_tuple)
 
     return pair_list
 
