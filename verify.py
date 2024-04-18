@@ -10,7 +10,7 @@ exception_write_to_file_count = 0
 
 
 def _write_exceptions_to_file(model):
-    filename = 'tmp2/' + model + '/exceptions.txt'
+    filename = 'tmp/' + model + '/exceptions.txt'
     with open(filename, 'w') as file:
         for exception in exception_list:
             file.write(str(exception) + '\n')
@@ -23,7 +23,7 @@ def _write_test_result_to_file(template_folder, template_image_index, test_folde
         f'{template_image_index}\t'
         f'{test_folder}\t'
         f'{test_image_index}\t'
-        f'{result}\t')
+        f'{result}\t\n')
 
 def get_image_from_pair(race, pair):
     if len(pair) == 4:
@@ -35,18 +35,18 @@ def get_image_from_pair(race, pair):
         test_folder = pair[2]
         test_index = int(pair[3])
         test_image = '_000' + str(test_index) + '.jpg'
-        test_image_path = 'rfw/test/data' + race + '/' + test_folder + '/' + test_folder + test_image
+        test_image_path = 'rfw/test/data/' + race + '/' + test_folder + '/' + test_folder + test_image
 
-    if len(pair) == 3:
+    elif len(pair) == 3:
         template_folder = pair[0]
         template_index = int(pair[1])
         template_image = '_000' + str(template_index) + '.jpg'
-        template_image_path = 'rfw/test' + race + '/' + template_folder + '/' + template_folder + template_image
+        template_image_path = 'rfw/test/' + race + '/' + template_folder + '/' + template_folder + template_image
 
         test_folder = pair[0]
         test_index = int(pair[2])
         test_image = '_000' + str(test_index) + '.jpg'
-        test_image_path = 'rfw/test'+ race + '/' + test_folder + '/' + test_folder + test_image
+        test_image_path = 'rfw/test/'+ race + '/' + test_folder + '/' + test_folder + test_image
 
     else:
         raise Exception("Error in get_pair()")
@@ -54,30 +54,28 @@ def get_image_from_pair(race, pair):
     
 
 
-def _run_tests(race, model, detector, euclidean_distance, pair_list, test_limit):
+def _run_tests(race, model, detector, distance_metric, pair_list, test_limit):
 
     global exception_list
 
     # Open results file for writing
-    with open(f'tmp2/{model}/{race}_results.txt', 'w') as results_file:
+    with open(f'tmp/{model}/{race}_results.txt', 'w') as results_file:
 
         # Write the header of results file
-        results_file.write('File1\tFile2\tResult')
+        results_file.write('File1\tFile2\tResult\n')
 
         # iterate through each image in the folder
         count = 0
         for pair in pair_list:
-            template_folder, template_index, template_image_path, test_folder, test_index, test_image_path = get_image_from_pair(pair)
+            template_folder, template_index, template_image_path, test_folder, test_index, test_image_path = get_image_from_pair(race, pair)
             
-            print(f"\n{template_image_path}\t{test_image_path}")
+            print(f"\n{template_image_path}\n{test_image_path}")
 
             try:
                 # run model
-                start_time = time.time()  # start the timer
-                result = DeepFace.verify(template_image_path, test_image_path, model, detector, euclidean_distance)
-                end_time = time.time()
-                test_time = end_time - start_time
-                print(f"Test Time: {test_time}")
+                result = DeepFace.verify(template_image_path, test_image_path, model, detector, distance_metric)
+
+                print(f"Test Time: {result['time']}")
                 tf.keras.backend.clear_session()
 
                 _write_test_result_to_file(template_folder, template_index, test_folder, test_index, result, results_file)
@@ -108,18 +106,18 @@ def _init_values(race):
 
 
 def main():
-    # race_list = ['African', 'Asian', 'Caucasian', 'Indian']
-    race_list = ['African']
-    model_list = ['Facenet512']
-    euclidean_distance = 'euclidean'
+    race_list = ['African', 'Asian', 'Caucasian', 'Indian']
+    # race_list = ['African']
+    model_list = ['DeepFace', 'Facenet', 'Facenet512','ArcFace']
+    distance_metric = 'cosine'
     detector = 'mtcnn'
-    test_limit = 10
+    test_limit = 10000
     
     for model in model_list:
         for race in race_list:
             pair_list = _init_values(race)
 
-            _run_tests(race, model, detector, euclidean_distance, pair_list, test_limit)
+            _run_tests(race, model, detector, distance_metric, pair_list, test_limit)
 
         print(f"Output file generated successfully for {model}.")
         _write_exceptions_to_file(model)
