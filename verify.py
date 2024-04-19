@@ -1,9 +1,5 @@
 from deepface import DeepFace
-import time
 import tensorflow as tf
-from datetime import datetime
-import multiprocessing
-from functools import partial
 
 exception_list = []
 exception_write_to_file_count = 0
@@ -67,7 +63,6 @@ def _run_tests(race, model, detector, distance_metric, pair_list, test_limit):
         # iterate through each image in the folder
         count = 0
         for pair in pair_list:
-            print(f"pair: {pair}")
             template_folder, template_index, template_image_path, test_folder, test_index, test_image_path = get_image_from_pair(race, pair)
             
             print(f"\n{template_image_path}\n{test_image_path}")
@@ -109,7 +104,7 @@ def main():
     model_list = ['DeepFace', 'Facenet', 'Facenet512','ArcFace']
     distance_metric = 'cosine'
     detector = 'mtcnn'
-    test_limit = 10000
+    test_limit = 1200
     
     for model in model_list:
         for race in race_list:
