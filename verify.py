@@ -32,7 +32,6 @@ def get_image_from_pair(race, pair):
         test_index = int(pair[3])
         test_image = '_000' + str(test_index) + '.jpg'
         test_image_path = 'rfw/test/data/' + race + '/' + test_folder + '/' + test_folder + test_image
-
     elif len(pair) == 3:
         template_folder = pair[0]
         template_index = int(pair[1])
@@ -43,9 +42,9 @@ def get_image_from_pair(race, pair):
         test_index = int(pair[2])
         test_image = '_000' + str(test_index) + '.jpg'
         test_image_path = 'rfw/test/data/'+ race + '/' + test_folder + '/' + test_folder + test_image
-
     else:
         raise Exception("Error in get_pair()")
+    
     return template_folder, template_index, template_image_path, test_folder, test_index, test_image_path
     
 
@@ -104,7 +103,7 @@ def main():
     model_list = ['DeepFace', 'Facenet', 'Facenet512','ArcFace']
     distance_metric = 'cosine'
     detector = 'mtcnn'
-    test_limit = 1200
+    test_limit = 10000
     
     for model in model_list:
         for race in race_list:

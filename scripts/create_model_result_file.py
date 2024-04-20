@@ -1,4 +1,5 @@
 # calculates the race results for a set of files. The code reads the input file, processes the header and lines, and writes the output file. The code is executed for each file in the file_list list. The input and output paths are hard-coded in the script.
+from threshold_config import threshold_dict
 
 def _calculate_scores(tp, fp, tn, fn):
     test_count = tp + fp + tn + fn
@@ -86,19 +87,21 @@ if __name__ == "__main__":
     race_list = ["African"]
     model_list = ["DeepFace"]
     model = model_list[0]
-    theshold_dict = {
-        'DeepFace':0.35, 
-        'ArcFace':0.8, 
-        'Facenet': 0.4, 
-        'Facenet512': 0.4}
+
+    
+    # # theshold_json = os.getenv("THRESHOLD_DICT")
+    # theshold_dict = {
+    #     'DeepFace':0.35, 
+    #     'ArcFace':0.8, 
+    #     'Facenet': 0.4, 
+    #     'Facenet512': 0.4}
     
     path = "testing_results/verification/" + model + "/"
     output_file = path + "Results.txt" 
     
-
     for race in race_list:
         input_file = path + race + "_results.txt"
-        threshold = theshold_dict[model]
+        threshold = threshold_dict[model]
         write_results_to_file(race, threshold, input_file, output_file)
     print("Output file generated successfully.")
 

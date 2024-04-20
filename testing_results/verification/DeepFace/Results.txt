@@ -1,15 +1,15 @@
 African
-	True Positive:	1475
-	True Negative:	1535
-	Fale  Positive:	1459
-	False Negative:	1521
-	Matching Test Count:	2996
-	Non Matching Test Count:	2994
+	True Positive:	305
+	True Negative:	298
+	Fale  Positive:	300
+	False Negative:	295
+	Matching Test Count:	600
+	Non Matching Test Count:	598
 	Threshold:	0.35
 
-	f1 score:	0.4974704890387859
-	accuracy:	0.5025041736227045
-	recall:		0.4923230974632844
-	precision:	0.5027266530334015
-	specificity:	0.5126920507682031
+	f1 score:	0.5062240663900415
+	accuracy:	0.503338898163606
+	recall:		0.5083333333333333
+	precision:	0.5041322314049587
+	specificity:	0.4983277591973244
 
