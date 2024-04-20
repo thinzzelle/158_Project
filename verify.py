@@ -100,7 +100,7 @@ def _init_values(race):
 def main():
     race_list = ['African', 'Asian', 'Caucasian', 'Indian']
     # race_list = ['African']
-    model_list = ['DeepFace', 'Facenet', 'Facenet512','ArcFace']
+    model_list = ['Facenet512','ArcFace', 'Facenet']
     distance_metric = 'cosine'
     detector = 'mtcnn'
     test_limit = 10000
