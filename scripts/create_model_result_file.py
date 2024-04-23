@@ -88,9 +88,9 @@ def write_results_to_file(race, threshold, input_file, output_file):
 
 if __name__ == "__main__":
 
-    # race_list = ["African", "Asian", "Caucasian", "Indian"]
-    race_list = ["African"]
-    model_list = ["DeepFace"]
+    race_list = ["African", "Asian", "Caucasian", "Indian"]
+    # race_list = ["African"]
+    model_list = ["DeepFace", "ArcFace", "Facenet", "Facenet512"]
 
     # NOTE: Model Thresholds are defined in threshold_config.py
     for model in model_list:

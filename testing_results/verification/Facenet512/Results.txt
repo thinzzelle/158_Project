@@ -1,0 +1,15 @@
+Indian
+	True Positive:	1691
+	True Negative:	2772
+	Fale  Positive:	214
+	False Negative:	1287
+	Matching Test Count:	2978
+	Non Matching Test Count:	2986
+	Threshold:	0.4
+
+	f1 score:	0.6926070038910506
+	accuracy:	0.7483232729711603
+	recall:		0.5678307588985897
+	precision:	0.8876640419947507
+	specificity:	0.9283322170127261
+
