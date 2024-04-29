@@ -1,0 +1,63 @@
+Facenet
+StandardThresholds
+
+African
+	True Positive:	1425
+	True Negative:	2428
+	Fale  Positive:	566
+	False Negative:	1571
+	Matching Test Count:	2996
+	Non Matching Test Count:	2994
+	Threshold:	0.4
+
+	f1 score:	0.5714858632444355
+	accuracy:	0.6432387312186978
+	recall:		0.47563417890520693
+	precision:	0.7157207433450528
+	specificity:	0.8109552438209753
+
+Asian
+	True Positive:	1744
+	True Negative:	2592
+	Fale  Positive:	396
+	False Negative:	1235
+	Matching Test Count:	2979
+	Non Matching Test Count:	2988
+	Threshold:	0.4
+
+	f1 score:	0.6813830826333268
+	accuracy:	0.726663314898609
+	recall:		0.585431352802954
+	precision:	0.8149532710280374
+	specificity:	0.8674698795180723
+
+Caucasian
+	True Positive:	1085
+	True Negative:	2952
+	Fale  Positive:	35
+	False Negative:	1893
+	Matching Test Count:	2978
+	Non Matching Test Count:	2987
+	Threshold:	0.4
+
+	f1 score:	0.529526598340654
+	accuracy:	0.6767812238055323
+	recall:		0.36433848220282067
+	precision:	0.96875
+	specificity:	0.9882825577502511
+
+Indian
+	True Positive:	1332
+	True Negative:	2870
+	Fale  Positive:	116
+	False Negative:	1646
+	Matching Test Count:	2978
+	Non Matching Test Count:	2986
+	Threshold:	0.4
+
+	f1 score:	0.6018978761861725
+	accuracy:	0.704560697518444
+	recall:		0.44728005372733376
+	precision:	0.919889502762431
+	specificity:	0.9611520428667113
+

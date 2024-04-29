@@ -1,0 +1,63 @@
+ArcFace
+StandardThresholds
+
+African
+	True Positive:	2075
+	True Negative:	2096
+	Fale  Positive:	898
+	False Negative:	920
+	Matching Test Count:	2995
+	Non Matching Test Count:	2994
+	Threshold:	0.68
+
+	f1 score:	0.6953753351206434
+	accuracy:	0.6964434797128068
+	recall:		0.6928213689482471
+	precision:	0.6979482004709048
+	specificity:	0.700066800267201
+
+Asian
+	True Positive:	2246
+	True Negative:	2146
+	Fale  Positive:	842
+	False Negative:	733
+	Matching Test Count:	2979
+	Non Matching Test Count:	2988
+	Threshold:	0.68
+
+	f1 score:	0.7403988791824625
+	accuracy:	0.7360482654600302
+	recall:		0.7539442766028869
+	precision:	0.7273316062176166
+	specificity:	0.7182061579651942
+
+Caucasian
+	True Positive:	2110
+	True Negative:	2724
+	Fale  Positive:	263
+	False Negative:	868
+	Matching Test Count:	2978
+	Non Matching Test Count:	2987
+	Threshold:	0.68
+
+	f1 score:	0.7886376378247056
+	accuracy:	0.8103939647946353
+	recall:		0.7085292142377434
+	precision:	0.8891698272229246
+	specificity:	0.9119517910947439
+
+Indian
+	True Positive:	2207
+	True Negative:	2369
+	Fale  Positive:	617
+	False Negative:	771
+	Matching Test Count:	2978
+	Non Matching Test Count:	2986
+	Threshold:	0.68
+
+	f1 score:	0.7607721475353326
+	accuracy:	0.7672702883970489
+	recall:		0.7411014103425118
+	precision:	0.7815155807365439
+	specificity:	0.7933690555927663
+

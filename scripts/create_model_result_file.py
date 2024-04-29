@@ -50,8 +50,6 @@ def write_results_to_file(race, threshold, input_file, output_file):
         # print(parts)
 
         distance = float(parts[7][:7])
-        print(distance)
-        print(threshold)
 
         if parts[0] == parts[2] and distance < threshold:
             tp = tp + 1
@@ -69,9 +67,6 @@ def write_results_to_file(race, threshold, input_file, output_file):
     # Calculate accuracy
     f1_score, accuracy, recall, precision, specificity = _calculate_scores(
         tp, fp, tn, fn)
-
-    with open(output_file, 'w') as f_out:
-        pass
 
     # Write output file
     with open(output_file, 'a') as f_out:
@@ -92,13 +87,45 @@ if __name__ == "__main__":
     # race_list = ["African"]
     model_list = ["DeepFace", "ArcFace", "Facenet", "Facenet512"]
 
+    # mode = "Optimal"
+    # threshold_dictionary = {
+    #         "DeepFace": [0.35, 0.36, 0.3, 0.3], 
+    #         "ArcFace": [0.68, 0.67, 0.73, 0.69],
+    #         "Facenet": [0.47, 0.46, 0.61, 0.55],
+    #         "Facenet512": [0.44, 0.44, 0.59, 0.5]
+    #     }
+    
+    mode = "Standard"
+    threshold_dictionary = {
+            "DeepFace": [0.23, 0.23, 0.23, 0.23], 
+            "ArcFace": [0.68, 0.68, 0.68, 0.68],
+            "Facenet": [0.4, 0.4, 0.4, 0.4],
+            "Facenet512": [0.3, 0.3, 0.3, 0.3]
+        }
+
     # NOTE: Model Thresholds are defined in threshold_config.py
     for model in model_list:
         path = "testing_results/verification/" + model + "/"
-        output_file = path + "Results.txt"
+        output_file = path + f"{mode}_Results.txt"
+        with open(output_file, 'w') as f:
+            f.write(f"{model}\n")
+            f.write(f"{mode}Thresholds\n\n")
 
         for race in race_list:
             input_file = path + race + "_results.txt"
-            threshold = threshold_dict[model]
+            # threshold = threshold_dict[model]
+            if race == "African":
+                pos = 0
+            elif race == "Asian":
+                pos = 1
+            elif race == "Caucasian":
+                pos = 2
+            elif race == "Indian":
+                pos = 3
+                        
+            threshold = threshold_dictionary[model][pos]
+            print(model, race, threshold)
+
+
             write_results_to_file(race, threshold, input_file, output_file)
         print("Output file generated successfully.")

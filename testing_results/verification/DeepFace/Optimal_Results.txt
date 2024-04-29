@@ -1,0 +1,63 @@
+DeepFace
+OptimalThresholds
+
+African
+	True Positive:	1475
+	True Negative:	1535
+	Fale  Positive:	1459
+	False Negative:	1521
+	Matching Test Count:	2996
+	Non Matching Test Count:	2994
+	Threshold:	0.35
+
+	f1 score:	0.4974704890387859
+	accuracy:	0.5025041736227045
+	recall:		0.4923230974632844
+	precision:	0.5027266530334015
+	specificity:	0.5126920507682031
+
+Asian
+	True Positive:	1580
+	True Negative:	1633
+	Fale  Positive:	1355
+	False Negative:	1399
+	Matching Test Count:	2979
+	Non Matching Test Count:	2988
+	Threshold:	0.36
+
+	f1 score:	0.5343253297260737
+	accuracy:	0.5384615384615384
+	recall:		0.5303793219201074
+	precision:	0.5383304940374787
+	specificity:	0.5465194109772423
+
+Caucasian
+	True Positive:	1517
+	True Negative:	1635
+	Fale  Positive:	1352
+	False Negative:	1461
+	Matching Test Count:	2978
+	Non Matching Test Count:	2987
+	Threshold:	0.3
+
+	f1 score:	0.5188985804686164
+	accuracy:	0.5284157585917855
+	recall:		0.5094022834116857
+	precision:	0.5287556639944232
+	specificity:	0.5473719450954134
+
+Indian
+	True Positive:	1590
+	True Negative:	1571
+	Fale  Positive:	1415
+	False Negative:	1388
+	Matching Test Count:	2978
+	Non Matching Test Count:	2986
+	Threshold:	0.3
+
+	f1 score:	0.5315059334781882
+	accuracy:	0.5300134138162307
+	recall:		0.5339153794492948
+	precision:	0.5291181364392679
+	specificity:	0.5261219022103149
+

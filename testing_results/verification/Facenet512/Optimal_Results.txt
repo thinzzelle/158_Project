@@ -1,0 +1,63 @@
+Facenet512
+OptimalThresholds
+
+African
+	True Positive:	2138
+	True Negative:	2054
+	Fale  Positive:	940
+	False Negative:	858
+	Matching Test Count:	2996
+	Non Matching Test Count:	2994
+	Threshold:	0.44
+
+	f1 score:	0.7039841949292065
+	accuracy:	0.6998330550918197
+	recall:		0.7136181575433912
+	precision:	0.6946068875893437
+	specificity:	0.6860387441549766
+
+Asian
+	True Positive:	2199
+	True Negative:	2287
+	Fale  Positive:	701
+	False Negative:	780
+	Matching Test Count:	2979
+	Non Matching Test Count:	2988
+	Threshold:	0.44
+
+	f1 score:	0.7480864092532744
+	accuracy:	0.7518015753309871
+	recall:		0.7381671701913394
+	precision:	0.7582758620689655
+	specificity:	0.7653949129852744
+
+Caucasian
+	True Positive:	2468
+	True Negative:	2511
+	Fale  Positive:	475
+	False Negative:	510
+	Matching Test Count:	2978
+	Non Matching Test Count:	2986
+	Threshold:	0.59
+
+	f1 score:	0.8336429657152508
+	accuracy:	0.8348423876592891
+	recall:		0.8287441235728676
+	precision:	0.8386000679578661
+	specificity:	0.8409243134628265
+
+Indian
+	True Positive:	2309
+	True Negative:	2271
+	Fale  Positive:	715
+	False Negative:	669
+	Matching Test Count:	2978
+	Non Matching Test Count:	2986
+	Threshold:	0.5
+
+	f1 score:	0.769410196601133
+	accuracy:	0.7679409792085848
+	recall:		0.7753525856279382
+	precision:	0.763558201058201
+	specificity:	0.760549229738781
+
