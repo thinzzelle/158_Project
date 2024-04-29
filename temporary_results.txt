@@ -1,0 +1,80 @@
+DeepFace - African
+	True Positive:	1434
+	Total Test Count	14048
+	Recall:	0.10207858769931663
+
+DeepFace - Asian
+	True Positive:	2205
+	Total Test Count	15640
+	Recall:	0.1409846547314578
+
+DeepFace - Caucasian
+	True Positive:	3207
+	Total Test Count	12421
+	Recall:	0.25819177199903387
+
+DeepFace - Indian
+	True Positive:	3553
+	Total Test Count	13801
+	Recall:	0.2574451126729947
+
+ArcFace - African
+	True Positive:	10761
+	Total Test Count	14035
+	Recall:	0.7667260420377627
+
+ArcFace - Asian
+	True Positive:	12554
+	Total Test Count	15601
+	Recall:	0.8046920069226332
+
+ArcFace - Caucasian
+	True Positive:	10287
+	Total Test Count	13561
+	Recall:	0.7585723766683873
+
+ArcFace - Indian
+	True Positive:	10922
+	Total Test Count	13802
+	Recall:	0.7913345891899725
+
+Facenet - African
+	True Positive:	7875
+	Total Test Count	14035
+	Recall:	0.5610972568578554
+
+Facenet - Asian
+	True Positive:	10348
+	Total Test Count	15601
+	Recall:	0.663290814691366
+
+Facenet - Caucasian
+	True Positive:	6253
+	Total Test Count	13561
+	Recall:	0.4611016886660276
+
+Facenet - Indian
+	True Positive:	7474
+	Total Test Count	13802
+	Recall:	0.5415157223590784
+
+Facenet512 - African
+	True Positive:	5602
+	Total Test Count	14035
+	Recall:	0.3991449946562166
+
+Facenet512 - Asian
+	True Positive:	7056
+	Total Test Count	15601
+	Recall:	0.452278700083328
+
+Facenet512 - Caucasian
+	True Positive:	3553
+	Total Test Count	13561
+	Recall:	0.2620013273357422
+
+Facenet512 - Indian
+	True Positive:	5509
+	Total Test Count	13802
+	Recall:	0.39914505144182005
+
