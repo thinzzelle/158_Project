@@ -178,7 +178,6 @@ def plot_metrics(model, race_list, matrix_dict):
 
 def main():
     model_list = ['DeepFace', 'ArcFace', 'Facenet', 'Facenet512']
-    # model_list = ['DeepFace']
     race_list = ['African', 'Asian', 'Caucasian', 'Indian']
 
     for model in model_list:
